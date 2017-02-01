@@ -25,7 +25,7 @@ System configuration requirements:
 * [Java Development Kit 1.7 or later](#java) 
 * [Apache Maven 3.3.9 or later](#maven)
 
-Above  0.4-rc3.8:
+Above  0.7.2:
 
 * [JavaCPP](#javacpp)
 * [BLAS (ATLAS, MKL, or OpenBLAS)](#blas) 
@@ -43,7 +43,7 @@ For help installing the Java Development Kit or Maven, see the [DL4J quickstart]
 
 ## <a id="javacpp">JavaCPP</a>
 
-[JavaCPP](https://github.com/bytedeco/javacpp) provides efficient access to native C++ inside Java. Git clone and install when using version above 0.4-rc3.8.
+[JavaCPP](https://github.com/bytedeco/javacpp) provides efficient access to native C++ inside Java. Git clone and install when using version above 0.7.2.
 
 ## <a id="blas">BLAS</a>
 
@@ -83,11 +83,11 @@ The default backend for CPUs is `nd4j-native-platform`, and for CUDA it is `nd4j
 
 ND4J's version is a variable here. It will refer to another line higher in the POM, in the `<properties> ... </properties>` section, specifying the nd4j version and appearing similar to this:
 
-		<nd4j.version>0.4.0</nd4j.version>
+		<nd4j.version></nd4j.version>
 
-*The dl4j version and DataVec version are also 0.4.0.*
+*The dl4j version and DataVec version are also .*
 
-Version `0.4.0` or higher now includes all backends by default and binaries for all platforms are automatically pulled. It is recommended to not alter this behavior *especially* if you are building on one platform but deploying to another (OS X vs. Linux). However, you can also explicitly pull binaries only for the platforms you are using. Information on how to do this can be found on the [dependencies](./dependencies) page.
+Version `` or higher now includes all backends by default and binaries for all platforms are automatically pulled. It is recommended to not alter this behavior *especially* if you are building on one platform but deploying to another (OS X vs. Linux). However, you can also explicitly pull binaries only for the platforms you are using. Information on how to do this can be found on the [dependencies](./dependencies) page.
 
 ### Other Build Systems
 
@@ -98,7 +98,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile 'org.nd4j:nd4j-native-platform:0.4.0'
+    compile 'org.nd4j:nd4j-native-platform:'
 }
 ```
 
@@ -107,7 +107,7 @@ Similarly, for sbt, we need to include something like the following inside `buil
 ```scala
 classpathTypes += "maven-plugin"
 
-libraryDependencies += "org.nd4j" % "nd4j-native-platform" % "0.4.0"
+libraryDependencies += "org.nd4j" % "nd4j-native-platform" % ""
 ```
 
 ### Stay Up-to-date
@@ -132,7 +132,7 @@ Many of the classes will appear in red, since you haven't imported the right pac
 
 Github is a web-based [Revision Control System](http://en.wikipedia.org/wiki/Revision_control), the [de facto host](http://opensource.com/life/12/11/code-hosting-comparison) for open-source projects. 
 
-If you are not planning to contribute to ND4J as a committer, or don't need the latest alpha version, we recommend downloading the most recent stable release of ND4J from [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cdeeplearning4j), 0.4-rc1.x. The JAR files can be downloaded directly from [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cnd4j). Otherwise, please see [source](./source). 
+If you are not planning to contribute to ND4J as a committer, or don't need the latest alpha version, we recommend downloading the most recent stable release of ND4J from [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cdeeplearning4j). The JAR files can be downloaded directly from [Maven Central](https://search.maven.org/#search%7Cga%7C1%7Cnd4j). Otherwise, please see [source](./source). 
 
 ## <a id="scala">Scala</a>
 
@@ -144,7 +144,7 @@ To test which version of Scala you have (and whether you have it at all), type t
 
 		scala -version
 
-To install Scala, visit the [Scala download page](http://www.scala-lang.org/download/2.10.4.html). ND4J is compatible with Scala 2.10.4, and Scala is not backwards compatible. [Homebrew](http://brew.sh/) will help Mac users install Scala. `brew install scala` will get you the latest version, which is `2.11.x`. To install Scala 2.10.x with Homebrew, please see [this page](https://github.com/ofishel/hb-scala-2.10.4). 
+To install Scala, visit the [Scala download page](http://www.scala-lang.org/download/2.1.html). ND4J is compatible with Scala 2.10.4, and Scala is not backwards compatible. [Homebrew](http://brew.sh/) will help Mac users install Scala. `brew install scala` will get you the latest version, which is `2.11.x`. To install Scala 2.10.x with Homebrew, please see [this page](https://github.com/ofishel/hb-scala-2.10.4). 
 
 You can also work with Scala via an IntelliJ plugin. (To add a plugin to IntelliJ, go to the tab `IntelliJ IDEA`/`Preferences`/`IDE Setting`/`Plugins`/ and search for Scala.)
 
@@ -154,7 +154,7 @@ You can also work with Scala via an IntelliJ plugin. (To add a plugin to Intelli
 
 ### Installing DataVec
 
-Take the same steps using Maven to install [DataVec](https://github.com/deeplearning4j/DataVec) that you followed for ND4J. Make sure you have the most recent version of [Maven](#maven). We are currently using version 0.4.1-SNAPSHOT.
+Take the same steps using Maven to install [DataVec](https://github.com/deeplearning4j/DataVec) that you followed for ND4J. Make sure you have the most recent version of [Maven](#maven). Please see the [examples](https://github.com/deeplearning4j/dl4j-examples) for the most recent versions.
 
 ### Installing Deeplearning4j
 
@@ -238,7 +238,7 @@ If you use Visual Studio:
 * In Visual Studio, you also have to click on C++. It is no longer set by default. 
 (*In addition, the include path for [Java CPP](https://github.com/bytedeco/javacpp) doesn't always work on Windows. One workaround is to take the the header files from the include directory of Visual Studio, and put them in the include directory of the Java Run-Time Environment (JRE), where Java is installed. This will affect files such as `standardio.h`.*)
 * For a walkthrough of installing our examples with Git, IntelliJ and Maven, please see our [Quickstart page](http://deeplearning4j.org/quickstart.html#walk). 
-* [This page](http://avulanov.blogspot.cz/2014/09/howto-to-run-netlib-javabreeze-in.html) describes how to obtain dll for the Windows 64 platform. 
+* [This page](http://avulanov.blogspot.cz/29/howto-to-run-netlib-javabreeze-in.html) describes how to obtain dll for the Windows 64 platform. 
 
 
 ### Linux

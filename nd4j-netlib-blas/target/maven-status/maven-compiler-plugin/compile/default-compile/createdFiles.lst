@@ -1,9 +1,0 @@
-org/nd4j/linalg/netlib/NetlibBlasNDArrayFactory.class
-org/nd4j/linalg/netlib/complex/ComplexDouble.class
-org/nd4j/linalg/netlib/complex/ComplexNDArray.class
-org/nd4j/linalg/netlib/NetlibBlasBackend.class
-org/nd4j/linalg/netlib/SimpleNetlibBlas.class
-org/nd4j/linalg/netlib/ndarray/SizeException.class
-org/nd4j/linalg/netlib/NetlibBlasWrapper.class
-org/nd4j/linalg/netlib/complex/ComplexFloat.class
-org/nd4j/linalg/netlib/NetlibBlasNDArray.class

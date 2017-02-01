@@ -1,6 +1,0 @@
-jcuda/jcublas/context/ContextHolderTest.class
-jcuda/jcublas/kernel/KernelFunctionLoaderTests.class
-jcuda/jcublas/CublasPointerTests.class
-jcuda/jcublas/kernel/TestMatrixOperations$1.class
-jcuda/jcublas/kernel/TestMatrixOperations.class
-jcuda/jcublas/fft/JCudaFftTest.class
