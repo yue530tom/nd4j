@@ -11,44 +11,6 @@ A Java [ServiceLoader](https://docs.oracle.com/javase/6/docs/api/java/util/Servi
 
 The core configurations for each backend are specified in a properties file. 
 
-<script src="http://gist-it.appspot.com/https://github.com/deeplearning4j/nd4j/blob/master/nd4j-jblas/src/main/resources/nd4j-jblas.properties?slice=18:35"></script>
-
-Let's step through this line by line with some brief comments:
-
-    //points to array class for real numbers
-    real.class.double = org.nd4j.linalg.jblas.NDArray 
-    
-    //points to array class for complex numbers
-    complex.class.double = org.nd4j.linalg.jblas.complex.ComplexNDArray 
-    
-    //defines the default data type as a float
-    dtype = float  
-    
-    //again points to appropriate class
-    complex.double.class = org.nd4j.linalg.jblas.complex.ComplexDouble 
-    
-    // Blas wrappers let you speak to the underlying linalg subprocesses.
-    blas.ops = org.nd4j.linalg.jblas.BlasWrapper 
-    
-    //this factory creates NDArrays for Jblas
-    ndarrayfactory.class = org.nd4j.linalg.jblas.JblasNDArrayFactory  
-    
-    //f stands for fortran, with column-major arrays. 
-    //the alternative is c, which is row-major
-    ndarray.order = f 
-    resourcemanager_state = false 
-    
-    // the databufferfactory will differ if you use of cpus or gpus...
-    databufferfactory = org.nd4j.linalg.api.buffer.factory.DefaultDataBufferFactory 
-    
-    //memory allocation can use arrays for storage with "heap".
-    //it uses raw byte buffers/netty with "direct".
-    alloc = heap 
-    
-    //fft specifies which fast-fourier transform impl to use
-    fft = org.nd4j.linalg.fft.DefaultFFTInstance
-
-You can see most of the classes the properties config file lines map to in this snapshot of nd4j-jblas's unfurled directory structure. 
 
 ![Alt text](../img/nd4j_backend_config.png)
 
