@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: cn-default
 title: "Downloads"
 description: ""
 ---
@@ -36,7 +36,7 @@ Add the local compiled file dependency (choose the module for your backend) to y
 #### Yum Install / Load RPM (Fedora or CentOS)
 Create a yum repo and run yum install to load the Red Hat Package Management (RPM) files. First create the repo file to setup the configuration locally.
 
-    $ sudo vi /etc/yum.repos.d/dl4j.repo 
+    $ sudo vi /etc/yum.repos.d/dl4j.repo
 
 Add the following to the dl4j.repo file:
 
@@ -56,4 +56,3 @@ Then run the following command on the dl4j repo packages to install them on your
     $ sudo yum install nd4j-cli -y # for example
 
 Note, be sure to install the nd4j modules you need first, especially the backend and then install Canova and dl4j.
-

@@ -1,5 +1,5 @@
 ---
-layout: layout: cn-default
+layout: cn-default
 title: "Changelog"
 description: ""
 ---

@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: cn-default
 title: "Dependencies"
 description: "Dependencies - How to change backends"
 ---
@@ -75,7 +75,7 @@ Maven can automatically install the required dependencies once we select one of 
 
 * [nd4j-native]
 * [nd4j-cuda-7.5](./gpu_native_backends) (for GPUs)
- 
+
 Go to your root directory -- e.g. nd4j or deeplearning4j -- and inspect the [pom.xml file](https://maven.apache.org/pom.html). You should see one backend defined in the `<dependencies> ... </dependencies>` section. You can switch among:
 
 ### native
@@ -113,4 +113,4 @@ They can be found on: [search.maven.org](http://search.maven.org/#search%7Cga%7C
 
 And paste it into the "dependencies" section of your pom.xml, which should end up looking like this in IntelliJ:
 
-![Alt text](../img/nd4j_pom_after.png) 
+![Alt text](../img/nd4j_pom_after.png)

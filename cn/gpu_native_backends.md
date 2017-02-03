@@ -1,6 +1,6 @@
 ---
-layout: page
-title: 
+layout: cn-default
+title: "ND4J Backends for GPUs"
 description: "GPU Compatibility for NVIDIA CUDA"
 ---
 
@@ -20,7 +20,7 @@ You can replace the `<artifactId> ... </artifactId>`, depending on your preferen
 
                 nd4j-cuda-$CUDA_VERSION (where CUDA_VERSION is one of 7.5 or 8.0)
 
-That's it. 
+That's it.
 
 If you have several GPUs, but your system is forcing you to use just one, there's a solution. Just add `CudaEnvironment.getInstance().getConfiguration().allowMultiGPU(true);` as first line of your `main()` method.
 

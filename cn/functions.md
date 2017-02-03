@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: cn-default
 title: "Functions"
 description: ""
 ---
@@ -16,7 +16,7 @@ Here are the [transform classes](https://github.com/deeplearning4j/nd4j/blob/mas
 
 ### Sigmoid
 
-[Sigmoid](https://en.wikipedia.org/wiki/Sigmoid_function) is a mathematical function in the shape of an S, or sigmoid curve, which normalizes data to a range between -1 and 1, so that it can be understood in terms of probabilities. Sigmoid functions are one of several activation functions used for [artificial neurons](http://deeplearning4j.org/). 
+[Sigmoid](https://en.wikipedia.org/wiki/Sigmoid_function) is a mathematical function in the shape of an S, or sigmoid curve, which normalizes data to a range between -1 and 1, so that it can be understood in terms of probabilities. Sigmoid functions are one of several activation functions used for [artificial neurons](http://deeplearning4j.org/).
 
     ndv = sigmoid(nd);
 
@@ -27,10 +27,10 @@ Here's what Sigmoid should return for the above array
 
 ### Tanh
 
-Tanh -- pronounced "tan H" -- is a [hyperbolic trigonometric function](https://en.wikipedia.org/wiki/Hyperbolic_function), the hyperbolic tangent, which like Sigmoid serves as a transform to activate artificial neurons, among other uses. Calling tanh performs an elementwise operation on the nd-array. Its graphical representation resembles a windblown S. 
+Tanh -- pronounced "tan H" -- is a [hyperbolic trigonometric function](https://en.wikipedia.org/wiki/Hyperbolic_function), the hyperbolic tangent, which like Sigmoid serves as a transform to activate artificial neurons, among other uses. Calling tanh performs an elementwise operation on the nd-array. Its graphical representation resembles a windblown S.
 
      ndv = tanh(nd);
-     
+
 Here's what Sigmoid should return for the above array
 
      [0.7615942 ,0.9950548 ,0.9999092 ,0.99999833 ,0.99999994 ,1.0 ,-0.9999877]
@@ -42,7 +42,7 @@ Absolute Value returns the distance of an element from zero, regardless of its p
 
      abs(nd2);
 
-So if the array nd2 looked like this 
+So if the array nd2 looked like this
 
      [1.0 ,3.0 ,5.0 ,7.0 ,9.0 ,11.0 ,-6.0]
      [2.0 ,4.0 ,6.0 ,8.0 ,10.0 ,12.0 ,-8.0]   
@@ -62,7 +62,7 @@ produces this result
 
      [1.0 ,1.7320508 ,2.236068 ,2.6457512 ,3.0 ,3.3166249]
      [1.4142135 ,2.0 ,2.4494898 ,2.828427 ,3.1622777 ,3.4641016]
-     
+
 ### [Exponential function](https://en.wikipedia.org/wiki/Exponential_function)
 
 Euler's number e, which is about 2.718281828, is a number for which e^x is its own derivative. Performing exp on nd

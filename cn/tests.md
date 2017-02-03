@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: cn-default
 title: "Running Tests"
 description: ""
 ---
@@ -27,8 +27,8 @@ When extending BaseNd4jTest, an ordering method returning 'c' or 'f' must also b
 -Maven
 
 cd in to the backend of your choice. Backends are located under [nd4j-backend-impls](https://github.com/deeplearning4j/nd4j/tree/master/nd4j-backends/nd4j-backend-impls)
-and run 
- 
+and run
+
             mvn clean test -Dtest=ClassName
 
 If you want to run a single method:
@@ -40,7 +40,7 @@ If you want to run a single method:
 Go to the method name of your test you want to run. Right click and hit run.
 It should give you an error regarding filters and requests. Ignore that error.
 
-Go to Run -> Edit Configurations 
+Go to Run -> Edit Configurations
 
 Find ClassName.methodName (whatever the name of your test class/method name are)
 
@@ -53,5 +53,3 @@ right now. This will allow you to run/debug tests for different backends though.
 
 Ignore the warning in the corner about it not finding the folder. The classpath is resolved via maven and will pick up the test
 when you run it.
-
-

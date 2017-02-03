@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: cn-default
 title: "ND4J User Guide"
 description: ""
 ---
@@ -590,7 +590,7 @@ Note that these operations operate on the entire array. Call ```.doubleValue()``
 * Matrix inverse: ```InvertMatrix.invert(INDArray,boolean)```
 
 **Getting Parts of a Larger NDArray**:
-Note: all of these methods return 
+Note: all of these methods return
 
 * Getting a row (2d NDArrays only): ```getRow(int)```
 * Getting multiple rows as a matrix (2d only): ```getRows(int...)```
@@ -618,7 +618,3 @@ There are two possible work-arounds:
 
 1. Allocate a new array and do a copy (for example, a .put() operation)
 2. Initially, pre-allocate a larger than required NDArray, and then operate on a view of that array. Then, as you need a larger array, get a larger view on the original pre-allocated array.
-
-
-
-

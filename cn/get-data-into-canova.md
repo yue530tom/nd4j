@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: cn-default
 title: "Getting Data Into Canova"
 description: ""
 ---
@@ -9,7 +9,7 @@ description: ""
 
 * Input Format: TextInputFormat
     * org.canova.cli.formats.input.TextInputFormat
-* Record Schema coming out of input format: { csvLineString, dirLabelString } 
+* Record Schema coming out of input format: { csvLineString, dirLabelString }
     * label of record is second string in Collection<Writable>
 
 ### Explanation of Input Formats and Record Readers based on FileRecordReader
@@ -36,7 +36,7 @@ With 1 or many files inside each directory representing records of the class lab
 
 Example of vectorized output:
 
-    cat /tmp/canova/text/svm_light_unit_test_0_output.txt 
+    cat /tmp/canova/text/svm_light_unit_test_0_output.txt
     0.0 1:0.1436278074979782 2:0.1436278074979782 3:0.210410937666893
     0.0 1:0.1436278074979782 2:0.1436278074979782 4:0.210410937666893
     0.0 5:0.22764469683170319 6:0.210410937666893 7:0.210410937666893 8:0.210410937666893 9:0.210410937666893 10:0.210410937666893
@@ -69,7 +69,7 @@ Many databases export data as CSV as CSV is a universal and flexible format for 
 
 * Input Format: LineInputFormat
     * org.canova.api.formats.input.impl.LineInputFormat
-* Record Schema coming out of input format: { string } 
+* Record Schema coming out of input format: { string }
     * label is defined in vector schema
 * Input Files
     * Lines of CSV records in multiple files in a directory
@@ -77,7 +77,7 @@ Many databases export data as CSV as CSV is a universal and flexible format for 
 
 ### Setting up Data For Canova's LineInputFormat To Work with the CSV Vector Schema System
 
-* In the case of the CSV vectorization pipeline in Canova we have an added dimension of a "vector schema" 
+* In the case of the CSV vectorization pipeline in Canova we have an added dimension of a "vector schema"
 * CSV data already has column structure to it so we just tell the system which column is the label (example below)
 * We can also express column-level transforms on the CSV data
     * normalize
@@ -86,12 +86,12 @@ Many databases export data as CSV as CSV is a universal and flexible format for 
     * label
 
 ### Example CSV Configuration File
-    
+
     canova.input.header.skip=false
     canova.input.statistics.debug.print=false
     canova.input.data.type=csv
     canova.input.format=org.canova.api.formats.input.impl.LineInputFormat
-    canova.input.directory=src/test/resources/csv/data/uci_iris_sample.txt 
+    canova.input.directory=src/test/resources/csv/data/uci_iris_sample.txt
     canova.input.vector.schema=src/test/resources/csv/schemas/uci/iris.txt
     canova.output.vector.format=svmlight
     canova.output.directory=/tmp/iris_unit_test_sample.txt
