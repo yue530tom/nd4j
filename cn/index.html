@@ -1,0 +1,63 @@
+---
+layout: cn-default
+title: "ND4J：为Java编写的N维数组"
+tagline: "ND4J是为生产环境设计的多维数组代数库"
+redirect_from: /zh-index
+---
+<p><h1>ND4J：为Java编写的N维数组</h1></p>
+<p>ND4J和ND4S是JVM的科学计算库，并为生产环境设计，亦即例程运行速度快，RAM要求低。</p>
+<p><strong>主要特点</strong></p>
+<ul>
+<li>多用途<strong>多维数组</strong>对象</li>
+<li>多平台功能，包括GPU</li>
+<li>线性代数和信号处理功能</li>
+</ul>
+<p>由于易用性上存在的缺口，Java、<a href="scala">Scala</a>和<a href="https://github.com/whilo/clj-nd4j" target="_blank">Clojure</a>编程人员无法充分利用NumPy或Matlab等数据分析方面最强大的工具。Breeze等其他库则不支持<a href="tensor">多维数组或张量</a>，而这却是深度学习和其他任务的关键。ND4J和ND4S正得到国家级实验室的使用，以完成气候建模等任务。这类任务要求完成计算密集的模拟运算。</p>
+<p>ND4J在开源、分布式、支持GPU的库内，为JVM带来了符合直觉的、Python编程人员所用的科学计算工具。在结构上，ND4J与<a href="http://www.slf4j.org" target="_blank">SLF4J</a>相似。ND4J让生产环境下的工程师能够轻松将算法和界面移植到Java和Scala体系内的其他库内。</p>
+<p><a href="getstarted">点此立刻开始体验</a>，或继续阅读下文。</p>
+<br>
+
+<p><h2>ND4J/ND4S具体细节</h2></p>
+<ul>
+<li>通过Jblas和Netlib Blas，实现通过CUDA和Native对GPU的支持。</li>
+<li>在安卓上进行部署。</li>
+<li>与Hadoop和Spark集成。</li>
+<li><a href="https://github.com/deeplearning4j/nd4s" target="_blank">ND4S的API</a>模仿Numpy的语义。</li>
+</ul>
+<br>
+<p><h2>代码示例</h2></p>
+<p>创建2x2多维数组：</p>
+<pre class="line-numbers"><code class="language-java">
+	INDArray arr1 = Nd4j.create(new float[]{1,2,3,4},new int[]{2,2});
+	System.out.println(arr1);
+</code></pre>
+<p>输出：</p>
+<pre><code>
+	[[1.0 ,3.0]
+	[2.0 ,4.0]
+	]
+</code></pre><br>
+<p>通过就地运算新增标量：</p>
+<pre class="line-numbers"><code class="language-java">
+	arr1.addi(1);
+    System.out.println(arr1);
+</code></pre>
+<p>各元素均加1：</p>
+<pre><code>
+    [[2.0 ,4.0]
+    [3.0 ,5.0]
+    ]
+</code></pre><br>
+<p>创建第二个数组（_arr2_）并将其加入第一个（_arr1_）</p>
+<pre class="line-numbers"><code class="language-java">
+    INDArray arr2 = ND4j.create(new float[]{5,6,7,8},new int[]{2,2});
+    arr1.addi(arr2);
+    System.out.println(arr1);
+</code></pre>
+<p>输出：</p>
+<pre><code>
+    [[7.0 ,11.0]
+    [9.0 ,13.0]
+    ]
+</code></pre><br>
+<p>您已对ND4J有所了解，<a href="getstarted">现在请亲自体验</a></p>
