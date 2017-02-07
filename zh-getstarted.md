@@ -4,6 +4,9 @@ title: "ND4J：为Java编写的N维数组"
 tagline: "ND4J是为生产环境设计的多维数组代数库"
 ---
 
+<meta http-equiv="refresh" content="0; url=http://nd4j.org/cn/getstarted" />
+
+
 {% include JB/setup %}
 
 # ND4J入门

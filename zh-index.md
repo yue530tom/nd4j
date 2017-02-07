@@ -4,6 +4,8 @@ title: "ND4J：为Java编写的N维数组"
 tagline: "ND4J是为生产环境设计的多维数组代数库"
 ---
 
+<meta http-equiv="refresh" content="0; url=http://nd4j.org/cn/" />
+
 {% include JB/setup %}
 
 ND4J和ND4S是JVM的科学计算库，并为生产环境设计，亦即例程运行速度快，RAM要求低。 

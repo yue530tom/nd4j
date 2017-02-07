@@ -2,6 +2,8 @@
 title: 简介
 layout: zh-default
 ---
+<meta http-equiv="refresh" content="0; url=http://nd4j.org/cn/about" />
+
 
 {% include JB/setup %}
 
