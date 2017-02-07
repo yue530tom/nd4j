@@ -1,8 +1,10 @@
 ---
 title: 简介
 layout: zh-default
-redirect_to: "http://nd4j.org/cn/about"
 ---
+<meta http-equiv="refresh" content="0; url=http://nd4j.org/cn/about" />
+
+
 {% include JB/setup %}
 
 # 简介
