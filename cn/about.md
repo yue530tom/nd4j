@@ -1,7 +1,6 @@
 ---
 title: 简介
 layout: cn-default
-redirect_from: /zh-about
 ---
 
 {% include JB/setup %}
