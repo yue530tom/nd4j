@@ -257,6 +257,8 @@
 
 
         <module>nd4j-serde/nd4j-kryo/pom211.xml</module>
+        <module>nd4j-serde/nd4j-camel-routes/nd4j-kafka/pom211.xml</module>
+
         <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda/pom75.xml</module>
         <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda-platform/pom75.xml</module>
 
