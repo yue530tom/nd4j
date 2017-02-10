@@ -14,8 +14,13 @@
     <modules>
         <module>nd4j-native</module>
         <module>nd4j-native-platform</module>
-        <module>nd4j-cuda</module>
-        <module>nd4j-cuda-platform</module>
+        <!--<module>nd4j-cuda</module>-->
+        <!--<module>nd4j-cuda-platform</module>-->
+        <module>nd4j-cuda/pom.xml</module>
+        <module>nd4j-cuda-platform/pom.xml</module>
+
+        <module>nd4j-cuda/pom75.xml</module>
+        <module>nd4j-cuda-platform/pom75.xml</module>
     </modules>
     <dependencies>
         <dependency>

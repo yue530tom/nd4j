@@ -13,7 +13,9 @@
     <modules>
         <module>nd4j-aeron</module>
         <module>nd4j-jackson</module>
-        <module>nd4j-kryo</module>
+        <!--<module>nd4j-kryo</module>-->
+        <module>nd4j-kryo/pom.xml</module>
+        <module>nd4j-kryo/pom211.xml</module>
         <module>nd4j-base64</module>
         <module>nd4j-camel-routes</module>
     </modules>

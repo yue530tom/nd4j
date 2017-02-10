@@ -9,11 +9,16 @@
     <artifactId>nd4j-kryo_2.11</artifactId>
     <packaging>jar</packaging>
 
-    <name>nd4j-kryo</name>
+    <!--<name>nd4j-kryo</name>-->
 
     <properties>
         <kryo.version>2.21</kryo.version>
+    <<buildDirectory>${project.basedir}/target11</buildDirectory>
     </properties>
+
+    <build>
+        <directory>${buildDirectory}</directory>
+    </build>
 
     <dependencies>
         <dependency>
