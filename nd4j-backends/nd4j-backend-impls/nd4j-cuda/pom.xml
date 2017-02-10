@@ -31,7 +31,7 @@
                 <executions>
                     <execution><!-- Run our version calculation script -->
                         <id>Version Calculation</id>
-                        <phase>generate-sources</phase>
+                        <phase>validate</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -159,6 +159,7 @@
                 <executions>
                     <execution>
                         <id>libnd4j-checks</id>
+                        <phase>initialize</phase>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
