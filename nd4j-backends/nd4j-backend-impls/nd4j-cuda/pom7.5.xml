@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>nd4j-backend-impls</artifactId>
         <groupId>org.nd4j</groupId>
@@ -7,11 +6,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>nd4j-cuda-8.0</artifactId>
+    <artifactId>nd4j-cuda-7.5</artifactId>
     <name>nd4j-cuda</name>
 
     <properties>
-        <cuda.version>8.0</cuda.version>
+        <cuda.version>7.5</cuda.version>
         <env.LIBND4J_HOME>${basedir}/../../../../libnd4j/</env.LIBND4J_HOME>
         <buildDirectory>${project.basedir}/target${cuda.version}</buildDirectory>
     </properties>
@@ -36,7 +35,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>${basedir}/cuda80.sh</executable>
+                            <executable>${basedir}/cuda75.sh</executable>
                         </configuration>
                     </execution>
                 </executions>
@@ -54,18 +53,15 @@
                 <configuration>
                     <argLine>-Xmx8G</argLine>
                     <environmentVariables>
-                        <LD_LIBRARY_PATH>${env.LD_LIBRARY_PATH}:${user.dir}:${env.LIBND4J_HOME}/blasbuild/cuda/blas/
-                        </LD_LIBRARY_PATH>
+                        <LD_LIBRARY_PATH>${env.LD_LIBRARY_PATH}:${user.dir}:${env.LIBND4J_HOME}/blasbuild/cuda/blas/</LD_LIBRARY_PATH>
                     </environmentVariables>
                     <testSourceDirectory>../../nd4j-tests/src/test/java</testSourceDirectory>
                     <includes>
                         <include>*.java</include>
                     </includes>
                     <systemPropertyVariables>
-                        <org.nd4j.linalg.defaultbackend>org.nd4j.linalg.jcublas.JCublasBackend
-                        </org.nd4j.linalg.defaultbackend>
-                        <org.nd4j.linalg.tests.backendstorun>org.nd4j.linalg.jcublas.JCublasBackend
-                        </org.nd4j.linalg.tests.backendstorun>
+                        <org.nd4j.linalg.defaultbackend>org.nd4j.linalg.jcublas.JCublasBackend</org.nd4j.linalg.defaultbackend>
+                        <org.nd4j.linalg.tests.backendstorun>org.nd4j.linalg.jcublas.JCublasBackend</org.nd4j.linalg.tests.backendstorun>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -287,9 +283,7 @@
         <profile>
             <id>msvc</id>
             <activation>
-                <os>
-                    <family>windows</family>
-                </os>
+                <os><family>windows</family></os>
             </activation>
             <build>
                 <plugins>
