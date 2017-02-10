@@ -263,7 +263,7 @@
         <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda-platform/pom75.xml</module>
 
         <module>nd4j-parameter-server-parent/nd4j-parameter-server-status/pom211.xml</module>
-        <module>nd4j-parameter-server-parent/nd4j-parameter-server-client/pom211.xml</module>
+        <!--<module>nd4j-parameter-server-parent/nd4j-parameter-server-client/pom211.xml</module>-->
         <module>nd4j-parameter-server-parent/nd4j-parameter-server-node/pom211.xml</module>
 
     </modules>
