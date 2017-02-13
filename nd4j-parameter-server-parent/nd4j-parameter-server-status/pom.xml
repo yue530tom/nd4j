@@ -10,7 +10,7 @@
     <artifactId>nd4j-parameter-server-status_2.10</artifactId>
     <packaging>jar</packaging>
 
-    <name>nd4j-parameter-server-status</name>
+    <name>${project.artifactId}</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

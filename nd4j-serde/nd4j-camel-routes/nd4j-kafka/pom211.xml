@@ -9,7 +9,7 @@
     <artifactId>nd4j-kafka_2.11</artifactId>
     <packaging>jar</packaging>
 
-    <!--<name>nd4j-kafka</name>-->
+    <name>${project.artifactId}</name>
     <url>http://nd4j.org</url>
 
     <properties>
