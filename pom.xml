@@ -153,8 +153,8 @@
             <id>local-jfrog</id>
             <activation>
                 <property>
-                    <name>local.jfrog</name>
-                    <value>true</value>
+                    <name>local.software.repository</name>
+                    <value>jfrog</value>
                 </property>
             </activation>
             <distributionManagement>
@@ -174,8 +174,8 @@
             <id>local-nexus</id>
             <activation>
                 <property>
-                    <name>local.nexus</name>
-                    <value>true</value>
+                    <name>local.software.repository</name>
+                    <value>nexus</value>
                 </property>
             </activation>
             <distributionManagement>
@@ -191,6 +191,7 @@
                 </repository>
             </distributionManagement>
         </profile>
+
 
         <profile>
             <id>release-sign-artifacts</id>
