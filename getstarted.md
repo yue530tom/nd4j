@@ -47,7 +47,7 @@ For help installing the Java Development Kit or Maven, see the [DL4J quickstart]
 
 ## <a id="blas">BLAS</a>
 
-BLAS is used as a backend for libnd4j computations. You can choose between ATAL, MKL, or [OpenBLAS](https://github.com/xianyi/OpenBLAS/wiki/Installation-Guide). Note, if you use OpenBLAS check fortran requirements and make sure to configure for the number of cores on your machine.
+BLAS is used as a backend for libnd4j computations. You can choose between ATLAS, MKL, or [OpenBLAS](https://github.com/xianyi/OpenBLAS/wiki/Installation-Guide). Note, if you use OpenBLAS check fortran requirements and make sure to configure for the number of cores on your machine.
 
 ## <a id="ide">Integrated Development Environment: IntelliJ</a>
 
