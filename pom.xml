@@ -460,9 +460,10 @@
                 </executions>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>nexus-releases</serverId>
+                    <serverId>sonatype-nexus-snapshots</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
+                    <!--<skipStagingRepositoryClose>true</skipStagingRepositoryClose>-->
+                    <!--<stagingProfileId>13036484d8827</stagingProfileId>-->
                 </configuration>
             </plugin>
             <plugin>
