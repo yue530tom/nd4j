@@ -12,7 +12,7 @@
     <properties>
         <cuda.version>8.0</cuda.version>
         <nd4j.backend>nd4j-cuda-${cuda.version}</nd4j.backend>
-        <buildDirectory>${project.basedir}/target${cuda.version}</buildDirectory>
+        <buildDirectory>${project.basedir}/target</buildDirectory>
     </properties>
 
     <build>

@@ -14,7 +14,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <buildDirectory>${project.basedir}/target10</buildDirectory>
+        <buildDirectory>${project.basedir}/target</buildDirectory>
     </properties>
 
     <build>

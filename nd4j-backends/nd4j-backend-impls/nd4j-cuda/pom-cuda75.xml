@@ -12,7 +12,7 @@
     <properties>
         <cuda.version>7.5</cuda.version>
         <env.LIBND4J_HOME>${basedir}/../../../../libnd4j/</env.LIBND4J_HOME>
-        <buildDirectory>${project.basedir}/target${cuda.version}</buildDirectory>
+        <buildDirectory>${project.basedir}/target</buildDirectory>
     </properties>
 
     <build>
