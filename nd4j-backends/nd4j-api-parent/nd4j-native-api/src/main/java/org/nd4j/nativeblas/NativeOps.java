@@ -781,6 +781,7 @@ public abstract class NativeOps extends Pointer {
                     IntPointer xShapeInfo, @Cast("float16*") ShortPointer results, IntPointer resultShapeInfo,
                     @Cast("float16*") ShortPointer extraParams, IntPointer xIndexes, IntPointer resultIndexes);
 
+    public abstract void execDummyOperator(PointerPointer extraPointers);
 
     /**
      * Append an input array
