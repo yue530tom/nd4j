@@ -353,13 +353,13 @@
             </activation>
             <distributionManagement>
                 <snapshotRepository>
-                    <id>snapshots</id>
+                    <id>local-jfrog</id>
                     <name>local-jfrog</name>
                     <url>http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8081/artifactory/libs-snapshot-local
                     </url>
                 </snapshotRepository>
                 <repository>
-                    <id>snapshots</id>
+                    <id>local-jfrog</id>
                     <name>local-jfrog</name>
                     <url>http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8081/artifactory/libs-release-local
                     </url>
