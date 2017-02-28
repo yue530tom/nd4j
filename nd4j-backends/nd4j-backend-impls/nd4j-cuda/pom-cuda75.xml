@@ -2,7 +2,7 @@
     <parent>
         <artifactId>nd4j-backend-impls</artifactId>
         <groupId>org.nd4j</groupId>
-        <version>0.7.2</version>
+        <version>0.7.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -189,7 +189,7 @@
         <dependency>
             <groupId>${dependency.groupId}</groupId>
             <artifactId>${dependency.artifactId}</artifactId>
-            <version>${dependency.version}</version>
+            <version>${project.version}</version>
             <type>${dependency.packaging}</type>
             <classifier>${dependency.classifier}</classifier>
         </dependency>
