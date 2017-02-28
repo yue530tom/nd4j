@@ -17,7 +17,8 @@
   ~
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nd4j</groupId>
@@ -91,8 +92,8 @@
         </process-classes.skip>  <!-- To skip native compilation phase: -Dprocess-classes.skip=true    -->
         <javacpp.platform>${os.name}-${os.arch}
         </javacpp.platform> <!-- For Android: -Dplatform=android-arm                                        -->
-        <javacpp.platform.root />            <!--              -Dplatform.root=/path/to/android-ndk/                         -->
-        <javacpp.platform.compiler />    <!--              -Dplatform.compiler=/path/to/arm-linux-androideabi-g++        -->
+        <javacpp.platform.root/>            <!--              -Dplatform.root=/path/to/android-ndk/                         -->
+        <javacpp.platform.compiler/>    <!--              -Dplatform.compiler=/path/to/arm-linux-androideabi-g++        -->
         <spark.version>1.6.2</spark.version>
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
@@ -134,6 +135,10 @@
                 <groupId>com.lewisd</groupId>
                 <artifactId>lint-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
 
         </plugins>
 
@@ -145,7 +150,7 @@
                     <version>2.5.3</version>
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
-                        <localCheckout>true</localCheckout>
+                        <!--<localCheckout>true</localCheckout>-->
                         <pushChanges>false</pushChanges>
                         <tagNameFormat>${project.name}-@{project.version}-intropro</tagNameFormat>
                         <!--<arguments>-Dmaven.deploy.skip=true -DskipTests -Denv.LIBND4J_HOME=${LIBND4J_HOME}</arguments>-->
