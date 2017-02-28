@@ -17,12 +17,13 @@
   ~
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.nd4j</groupId>
     <artifactId>nd4j</artifactId>
-    <version>0.7.2</version>
+    <version>0.7.2-SNAPSHOT</version>
 
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -34,207 +35,12 @@
         <maven>3.0</maven>
     </prerequisites>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>local-nexus</id>
-            <name>Sonatype Nexus Pro Local snapshot repository</name>
-            <url>${NEXUS_URL_SNAPSHOT}</url>
-        </snapshotRepository>
-    </distributionManagement>
 
-    <profiles>
-
-        <!-- If someone knows a better way to do this, please do let me know! -->
-        <profile>
-            <id>linux</id>
-            <activation>
-                <os><name>linux</name></os>
-            </activation>
-            <properties>
-                <os.name>linux</os.name>
-            </properties>
-        </profile>
-        <profile>
-            <id>macosx</id>
-            <activation>
-                <os><name>mac os x</name></os>
-            </activation>
-            <properties>
-                <os.name>macosx</os.name>
-            </properties>
-        </profile>
-        <profile>
-            <id>windows</id>
-            <activation>
-                <os><family>windows</family></os>
-            </activation>
-            <properties>
-                <os.name>windows</os.name>
-            </properties>
-        </profile>
-        <profile>
-            <id>i386</id>
-            <activation>
-                <os><arch>i386</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>i486</id>
-            <activation>
-                <os><arch>i486</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>i586</id>
-            <activation>
-                <os><arch>i586</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>i686</id>
-            <activation>
-                <os><arch>i686</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>x86</id>
-            <activation>
-                <os><arch>x86</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>amd64</id>
-            <activation>
-                <os><arch>amd64</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>x86-64</id>
-            <activation>
-                <os><arch>x86-64</arch></os>
-            </activation>
-            <properties>
-                <os.arch>x86_64</os.arch>
-            </properties>
-        </profile>
-        <profile>
-            <id>arm</id>
-            <activation>
-                <os><arch>arm</arch></os>
-            </activation>
-            <properties>
-                <os.arch>arm</os.arch>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>release-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
-                        <configuration>
-                            <passphrase>${gpg.passphrase}</passphrase>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     <scm>
         <connection>scm:git@github.com:deeplearning4j/nd4j.git</connection>
         <developerConnection>scm:git:git@github.com:deeplearning4j/nd4j.git</developerConnection>
         <url>git@github.com:deeplearning4j/nd4j.git</url>
-        <tag> HEAD</tag>
+        <tag>HEAD</tag>
     </scm>
 
 
@@ -258,13 +64,10 @@
 
         <module>nd4j-serde/nd4j-kryo/pom-scala-2_11.xml</module>
         <module>nd4j-serde/nd4j-camel-routes/nd4j-kafka/pom-scala-2_11.xml</module>
-
         <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda/pom-cuda75.xml</module>
         <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda-platform/pom-cuda75.xml</module>
-
         <module>nd4j-parameter-server-parent/nd4j-parameter-server-status/pom-scala-2_11.xml</module>
         <module>nd4j-parameter-server-parent/nd4j-parameter-server-node/pom-scala-2_11.xml</module>
-
     </modules>
 
     <properties>
@@ -285,10 +88,12 @@
         <logback.version>1.1.2</logback.version>
         <javacpp.version>1.3.1</javacpp.version>
         <javacpp-presets.version>1.3</javacpp-presets.version>
-        <process-classes.skip> false</process-classes.skip>  <!-- To skip native compilation phase: -Dprocess-classes.skip=true    -->
-        <javacpp.platform>${os.name}-${os.arch}</javacpp.platform> <!-- For Android: -Dplatform=android-arm                                        -->
-        <javacpp.platform.root />            <!--              -Dplatform.root=/path/to/android-ndk/                         -->
-        <javacpp.platform.compiler />    <!--              -Dplatform.compiler=/path/to/arm-linux-androideabi-g++        -->
+        <process-classes.skip>false
+        </process-classes.skip>  <!-- To skip native compilation phase: -Dprocess-classes.skip=true    -->
+        <javacpp.platform>${os.name}-${os.arch}
+        </javacpp.platform> <!-- For Android: -Dplatform=android-arm                                        -->
+        <javacpp.platform.root/>            <!--              -Dplatform.root=/path/to/android-ndk/                         -->
+        <javacpp.platform.compiler/>    <!--              -Dplatform.compiler=/path/to/arm-linux-androideabi-g++        -->
         <spark.version>1.6.2</spark.version>
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
@@ -315,143 +120,90 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <includes>
-                        <include>**/*.so</include>
-                        <include>**/*.so.*</include>
-                        <include>META-INF/*</include>
-                        <include>META-INF/services/**</include>
-                        <include>org.*</include>
-                        <include>**/*.properties</include>
-                        <include>**/*.class</include>
-                        <include>**/*.dll</include>
-                        <include>**/*.dylib</include>
-                        <include>lib/*</include>
-
-                    </includes>
-                </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>${maven-deploy-plugin.version}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
+                <groupId>com.lewisd</groupId>
+                <artifactId>lint-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.6</version>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>local-nexus</serverId>
-                    <nexusUrl>${NEXUS_URL}/</nexusUrl>
-                    <!--<skipStagingRepositoryClose>true</skipStagingRepositoryClose>-->
-                    <stagingProfileId>11537a3f5fa97</stagingProfileId>
-                </configuration>
-            </plugin>
-            <plugin>
-              <groupId>com.lewisd</groupId>
-              <artifactId>lint-maven-plugin</artifactId>
-              <version>0.0.11</version>
-              <configuration>
-                <failOnViolation>true</failOnViolation>
-                <onlyRunRules>
-                  <rule>DuplicateDep</rule>
-                  <rule>RedundantDepVersion</rule>
-                  <rule>RedundantPluginVersion</rule>
-                  <rule>VersionProp</rule>
-                  <rule>DotVersionProperty</rule>
-                </onlyRunRules>
-                <xmlOutputFile>${project.build.directory}/maven-lint-result.xml</xmlOutputFile>
-              </configuration>
-              <executions>
-                <execution>
-                  <id>pom-lint</id>
-                  <phase>validate</phase>
-                  <goals>
-                    <goal>check</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>
+
         </plugins>
 
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.4</version>
-                    <configuration>
-                        <additionalparam>-Xdoclint:none</additionalparam>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
-                        <!-- To deploy to an open staging repository: -Darguments=-DstagingRepositoryId=orgnd4j-xxxx -->
-                        <arguments>-Psonatype-oss-release -DskipTests ${arguments}</arguments>
                         <localCheckout>true</localCheckout>
                         <pushChanges>false</pushChanges>
+                        <tagNameFormat>${project.name}-@{project.version}-intropro</tagNameFormat>
+                        <!--<arguments>-Dmaven.deploy.skip=true -DskipTests -Denv.LIBND4J_HOME=${LIBND4J_HOME}</arguments>-->
+                        <arguments>${arguments}</arguments>
                     </configuration>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*.so</include>
+                            <include>**/*.so.*</include>
+                            <include>META-INF/*</include>
+                            <include>META-INF/services/**</include>
+                            <include>org.*</include>
+                            <include>**/*.properties</include>
+                            <include>**/*.class</include>
+                            <include>**/*.dll</include>
+                            <include>**/*.dylib</include>
+                            <include>lib/*</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.lewisd</groupId>
+                    <artifactId>lint-maven-plugin</artifactId>
+                    <version>0.0.11</version>
+                    <configuration>
+                        <failOnViolation>true</failOnViolation>
+                        <onlyRunRules>
+                            <rule>DuplicateDep</rule>
+                            <rule>RedundantDepVersion</rule>
+                            <rule>RedundantPluginVersion</rule>
+                            <rule>VersionProp</rule>
+                            <rule>DotVersionProperty</rule>
+                        </onlyRunRules>
+                        <xmlOutputFile>${project.build.directory}/maven-lint-result.xml</xmlOutputFile>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>pom-lint</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
                     <version>1.6</version>
                     <configuration>
@@ -468,6 +220,36 @@
                     </executions>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
+                    <configuration>
+                        <additionalparam>-Xdoclint:none</additionalparam>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.5.1</version>
                     <configuration>
@@ -478,7 +260,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
 
     <dependencyManagement>
         <dependencies>
@@ -505,5 +286,210 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
+    <profiles>
+        <profile>
+            <id>local-nexus</id>
+            <activation>
+                <property>
+                    <name>local.software.repository</name>
+                    <value>local-nexus</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>local-nexus</id>
+                    <name>local-nexus</name>
+                    <url>
+                        http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8088/nexus/content/repositories/snapshots
+                    </url>
+                </snapshotRepository>
+                <repository>
+                    <id>local-nexus</id>
+                    <name>local-nexus</name>
+                    <url>
+                        http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8088/nexus/service/local/staging/deploy/maven2
+                    </url>
+                </repository>
+            </distributionManagement>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.6</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>local-nexus</serverId>
+                            <nexusUrl>http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8088/nexus/</nexusUrl>
+                            <skipStagingRepositoryClose>true</skipStagingRepositoryClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>local-jfrog</id>
+            <activation>
+                <property>
+                    <name>local.software.repository</name>
+                    <value>local-jfrog</value>
+                </property>
+            </activation>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>snapshots</id>
+                    <name>local-jfrog</name>
+                    <url>http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8081/artifactory/libs-snapshot-local
+                    </url>
+                </snapshotRepository>
+                <repository>
+                    <id>snapshots</id>
+                    <name>local-jfrog</name>
+                    <url>http://ec2-54-200-65-148.us-west-2.compute.amazonaws.com:8081/artifactory/libs-release-local
+                    </url>
+                </repository>
+            </distributionManagement>
+        </profile>
+
+        <!-- If someone knows a better way to do this, please do let me know! -->
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <name>linux</name>
+                </os>
+            </activation>
+            <properties>
+                <os.name>linux</os.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>macosx</id>
+            <activation>
+                <os>
+                    <name>mac os x</name>
+                </os>
+            </activation>
+            <properties>
+                <os.name>macosx</os.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <os.name>windows</os.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>i386</id>
+            <activation>
+                <os>
+                    <arch>i386</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>i486</id>
+            <activation>
+                <os>
+                    <arch>i486</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>i586</id>
+            <activation>
+                <os>
+                    <arch>i586</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>i686</id>
+            <activation>
+                <os>
+                    <arch>i686</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>x86</id>
+            <activation>
+                <os>
+                    <arch>x86</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>amd64</id>
+            <activation>
+                <os>
+                    <arch>amd64</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>x86-64</id>
+            <activation>
+                <os>
+                    <arch>x86-64</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>x86_64</os.arch>
+            </properties>
+        </profile>
+        <profile>
+            <id>arm</id>
+            <activation>
+                <os>
+                    <arch>arm</arch>
+                </os>
+            </activation>
+            <properties>
+                <os.arch>arm</os.arch>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
