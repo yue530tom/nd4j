@@ -12,7 +12,7 @@ pwd
 echo ""
 echo "[INFO] Switch directory to:"
 echo ""
-cd ../../../../libnd4j/blasbuild
+if [ -z $LIBND4J_HOME ]; then cd ../../../../libnd4j/blasbuild ; else cd ${LIBND4J_HOME}/blasbuild  ; fi
 pwd
 echo ""
 echo "[INFO] Set simlink for CUDA 8.0 "
