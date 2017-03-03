@@ -3,7 +3,7 @@ layout: cn-default
 title: "ND4J's Benchmarking Tool"
 description: ""
 ---
-{% include JB/setup %}
+
 
 **This section: Forthcoming**
 

@@ -3,7 +3,7 @@ layout: cn-default
 title: "Running Tests"
 description: ""
 ---
-{% include JB/setup %}
+
 
 
 

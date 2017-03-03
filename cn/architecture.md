@@ -3,7 +3,7 @@ layout: cn-default
 title: "Architecture"
 description: "ND4J's API, Buffer and Backends"
 ---
-{% include JB/setup %}
+
 
 ## ND4J's APIs, Buffers and Backends
 

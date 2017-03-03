@@ -1,0 +1,111 @@
+{% include header.html %}
+
+<!-- Top Navigation -->
+<header class="site-header navbar-fullwidth navbar-transparent">
+  <!-- Offer First Chapter of O'Reilly Book -->
+  <div id="TopBanner" class="TopBanner">
+      <p><span>Download the first chapter of our practical guide to deep learning for free.</span> <a href="http://learn.skymind.io/deep-learning-textbook" target="_blank" class="TopBanner-download-link">Download »</a></p>
+  </div>
+  <style>
+  .TopBanner {
+      display: none;
+  }
+  @media only screen and (min-device-width : 667px) {
+    .TopBanner {
+        display: block;
+        background-color: #424242;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 10px 0px 1px 0px;
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+        text-align: center;
+    }
+    .site-header.navbar-transparent .navbar {
+        top: 40px !important;
+    }
+  }
+  </style>
+  {% include navigation.html %}
+<!-- Banner -->
+<div class="banner banner-full-height overlay-black" style="background-image: url(assets/themes/thedocs/img/home_hero.jpg);">
+  <div class="container text-center">
+    <h1>N-Dimensional Arrays for Java</h1>
+    <h3>Fast, Numerical Computing for Java</h3>
+    <a class="btn btn-white btn-xl btn-outline" href="getstarted" role="button"> GET STARTED </a>
+  </div>
+
+  <ul class="social-icons">
+    <li><a class="github-button" href="https://github.com/deeplearning4j/nd4j" data-icon="octicon-star" data-style="mega" data-count-href="/deeplearning4j/nd4j/stargazers" data-count-api="/repos/deeplearning4j/nd4j#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star deeplearning4j/nd4j on GitHub">Star</a></li>
+    <li><a class="github-button" href="https://github.com/deeplearning4j/nd4j/fork" data-icon="octicon-repo-forked" data-style="mega" data-count-href="/deeplearning4j/nd4j/network" data-count-api="/repos/deeplearning4j/nd4j#forks_count" data-count-aria-label="# forks on GitHub" aria-label="Fork deeplearning4j/nd4j on GitHub">Fork</a></li>
+<!-- End Banner -->
+</header>
+<!-- END Top Navigation -->
+
+<main class="container">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <aside class="col-md-3 col-sm-3 sidebar">
+      {% include sidebar.html %}
+    </aside>
+    <!-- END Sidebar -->
+
+    <!-- Main content -->
+    <article class="col-md-9 col-sm-9 main-content" role="main">
+
+      <header>
+        <h1>ND4J: N-Dimensional Arrays for Java</h1>
+        <p>ND4J and ND4S are scientific computing libraries for the JVM. They are meant to be used in production environments, which means routines are designed to run fast with minimum RAM requirements.</p>
+      </header>
+
+      <section>
+        <h2>Main features</h2>
+        <p>A usability gap has separated Java, <a href="scala">Scala</a> and <a href="https://github.com/whilo/nd4clj" target="_blank">Clojure</a> programmers from the most powerful tools in data analysis, like NumPy or Matlab. Libraries like Breeze don’t support n-dimensional arrays, or <a href="tensor">tensors</a>, which are necessary for deep learning and other tasks. ND4J and ND4S are used by national laboratories for tasks such as climatic modeling, which require computationally intensive simulations.</p>
+        <p>ND4J brings the intuitive scientific computing tools of the Python community to the JVM in an open source, distributed and GPU-enabled library. In structure, it is similar to <a href="https://www.slf4j.org/" target="_blank">SLF4J</a>. ND4J gives engineers in production environments an easy way to port their algorithms and interface with other libraries in the Java and Scala ecosystems.</p>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Main Features</h3>
+            <ul>
+              <li>Versatile n-dimensional array object</li>
+              <li>Multiplatform functionality including GPUs</li>
+              <li>Linear algebra and signal processing functions</li>
+            </ul>
+          </div>
+
+          <div class="col-md-6">
+            <h3>ND4J/ND4S Specifics</h3>
+            <ul>
+              <li>Supports GPUs via CUDA</li>
+              <li>Integrates with Hadoop and Spark</li>
+              <li><a href="https://github.com/deeplearning4j/nd4s" target="_blank">ND4S’s API</a> mimics the semantics of Numpy</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Code Examples</h2>
+        <p>If you have any questions, please contact us on <a href="https://gitter.im/deeplearning4j/deeplearning4j">Gitter</a>.</p>
+        <p><b>Create a 2 x 2 NDarray:</b></p>
+        <pre><code class="language-java">INDArray arr1 = Nd4j.create(new float[]{1,2,3,4},new int[]{2,2});</code><br><code class="language-java">System.out.println(arr1);</code></pre>
+        <p><b>Output:</b></p>
+        <pre>[[1.0 ,3.0]<br>[2.0 ,4.0]<br>]</pre>
+        <p><b>Adding a scalar with in-place operations:</b></p>
+        <pre><code class="language-java">INDArray arr1 = Nd4j.create(new float[]{1,2,3,4},new int[]{2,2});System.out.println(arr1);</code><br><code class="language-java">arr1.addi(1);</code><br><code class="language-java">System.out.println(arr1);</code></pre>
+        <p><b>Each element is incremented by one:</b></p>
+        <pre>[[2.0 ,4.0]<br>[3.0 ,5.0]<br>]</pre>
+        <p><b>Create a second array (_arr2_) and adding it to the first (_arr1_):</b></p>
+        <pre><code class="language-java">INDArray arr2 = ND4j.create(new float[]{5,6,7,8},new int[]{2,2});</code><br><code class="language-java">arr1.addi(arr2);</code><br><code class="language-java">System.out.println(arr1);</code></pre>
+        <p><b>Output:</b></p>
+        <pre>[[7.0 ,11.0]<br>[9.0 ,13.0]<br>]</pre>
+        <p>You get the idea. <a href="getstarted">Now get started</a>.</p>
+      </section>
+
+    </article>
+
+  </div>
+</main>
+
+
+{% include footer.html %}

@@ -3,7 +3,7 @@ title: 简介
 layout: cn-default
 ---
 
-{% include JB/setup %}
+
 
 # 简介
 

@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: "ND4J User Guide"
 description: ""
 ---
@@ -46,19 +46,19 @@ An NDArray is in essence n-dimensional array: i.e., a rectangular array of numbe
 Some concepts you should be familiar with:
 
 * The *rank* of a NDArray is the number of dimensions. 2d NDArrays have a rank of 2, 3d arrays have a rank of 3, and so on. You can create NDArrays with any arbitrary rank.
-* The *shape* of an NDArray defines the size of each of the dimensions. Suppose we have a 2d array with 3 rows and 5 columns. This NDArray would have shape ```[3,5]```
+* The *shape* of an NDArray defines the size of each of the dimensions. Suppose we have a 2d array with 3 rows and 5 columns. This NDArray would have shape `[3,5]`
 * The *length* of an NDArray defines the total number of elements in the array. The length is always equal to the product of the values that make up the shape.
 * The *stride* of an NDArray is defined as the separation (in the underlying data buffer) of contiguous elements in each dimension. Stride is defined per dimension, so a rank N NDArray has N stride values, one for each dimension. Note that most of the time, you don't need to know (or concern yourself with) the stride - just be aware that this is how ND4J operates internally. The next section has an example of strides.
 * The *data type* of an NDArray refers to the type of data of an NDArray (for example, *float* or *double* precision). Note that this is set globally in ND4J, so all NDArrays should have the same data type. Setting the data type is discussed later in this document.
 
-In terms of indexing there are a few things to know. First, rows are dimension 0, and columns are dimension 1: thus ```INDArray.size(0)``` is the number of rows, and ```INDArray.size(1)``` is the number of columns. Like normal arrays in most programming languages, indexing is zero-based: thus rows have indexes ```0``` to ```INDArray.size(0)-1```, and so on for the other dimensions.
+In terms of indexing there are a few things to know. First, rows are dimension 0, and columns are dimension 1: thus `INDArray.size(0)` is the number of rows, and `INDArray.size(1)` is the number of columns. Like normal arrays in most programming languages, indexing is zero-based: thus rows have indexes `0` to `INDArray.size(0)-1`, and so on for the other dimensions.
 
-Throughout this document, we'll use the term ```NDArray``` to refer to the general concept of an n-dimensional array; the term ```INDArray``` refers specifically to the [Java interface](https://github.com/deeplearning4j/nd4j/blob/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/api/ndarray/INDArray.java) that ND4J defines. In practice, these two terms can be used interchangeably.
+Throughout this document, we'll use the term `NDArray` to refer to the general concept of an n-dimensional array; the term `INDArray` refers specifically to the [Java interface](https://github.com/deeplearning4j/nd4j/blob/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/api/ndarray/INDArray.java) that ND4J defines. In practice, these two terms can be used interchangeably.
 
 ### <a name="inmemory">NDArrays: How Are They Stored in Memory?</a>
 
 The next few paragraphs describe some of architecture behind ND4J. Understanding this is not strictly necessary in order to use ND4J, but it may help you to understand what is going on behind the scenes.
-NDArrays are stored in memory as a single flat array of numbers (or more generally, as a single contiguous block of memory), and hence differs a lot from typical Java multidimensional arrays such as a ```float[][]``` or ```double[][][]```.
+NDArrays are stored in memory as a single flat array of numbers (or more generally, as a single contiguous block of memory), and hence differs a lot from typical Java multidimensional arrays such as a `float[][]` or `double[][][]`.
 
 Physically, the data that backs an INDArray is stored off-heap: that is, it is stored outside of the Java Virtual Machine (JVM). This has numerous benefits, including performance, interoperability with high-performance BLAS libraries, and the ability to avoid some shortcomings of the JVM in high-performance computing (such as issues with Java arrays being limited to 2^31 -1 (2.14 billion) elements due to integer indexing).
 
@@ -71,33 +71,33 @@ The following image shows how a simple 3x3 (2d) NDArray is stored in memory,
 
 In the above array, we have:
 
-* ```Shape = [3,3]``` (3 rows, 3 columns)
-* ```Rank = 2``` (2 dimensions)
-* ```Length = 9``` (3x3=9)
+* `Shape = [3,3]` (3 rows, 3 columns)
+* `Rank = 2` (2 dimensions)
+* `Length = 9` (3x3=9)
 * Stride
-  * C order stride: ```[3,1]```: the values in consecutive rows are separated in the buffer by 3, and the values consecutive columns are separated in the buffer by 1
-  * F order stride: ```[1,3]```: the values in consecutive rows are separated in the buffer by 1, and the values in consecutive columns are separated in the buffer by 3
+  * C order stride: `[3,1]`: the values in consecutive rows are separated in the buffer by 3, and the values consecutive columns are separated in the buffer by 1
+  * F order stride: `[1,3]`: the values in consecutive rows are separated in the buffer by 1, and the values in consecutive columns are separated in the buffer by 3
 
 
 
 
 ### <a name="views">Views: When Two or More NDArrays Refer to the Same Data</a>
 
-A key concept in ND4J is the fact that two NDArrays can actually point to the same underlying data in memory. Usually, we have one NDArray referring to some subset of another array, and this only occurs for certain operations (such as ```INDArray.get()```, ```INDArray.transpose()```, ```INDArray.getRow()``` etc. This is a powerful concept, and one that is worth understanding.
+A key concept in ND4J is the fact that two NDArrays can actually point to the same underlying data in memory. Usually, we have one NDArray referring to some subset of another array, and this only occurs for certain operations (such as `INDArray.get()`, `INDArray.transpose()`, `INDArray.getRow()` etc. This is a powerful concept, and one that is worth understanding.
 
 There are two primary motivations for  this:
 
 1. There are considerable performance benefits, most notably in avoiding copying arrays
 2. We gain a lot of power in terms of how we can perform operations on our NDArrays
 
-Consider a simple operation like a matrix transpose on a large (10,000 x 10,000) matrix. Using views, we can perform this matrix transpose in constant time without performing any copies (i.e., O(1) in [big O notation](https://en.wikipedia.org/wiki/Big_O_notation)), avoiding the considerable cost copying all of the array elements. Of course, sometimes we *do* want to make a copy - at which point we can use the ```INDArray.dup()``` to get a copy. For example, to get a *copy* of a transposed matrix, use ```INDArray out = myMatrix.transpose().dup()```. After this ```dup()``` call, there will be no link between the original array ```myMatrix``` and the array ```out``` (thus, changes to one will not impact the other).
+Consider a simple operation like a matrix transpose on a large (10,000 x 10,000) matrix. Using views, we can perform this matrix transpose in constant time without performing any copies (i.e., O(1) in [big O notation](https://en.wikipedia.org/wiki/Big_O_notation)), avoiding the considerable cost copying all of the array elements. Of course, sometimes we *do* want to make a copy - at which point we can use the `INDArray.dup()` to get a copy. For example, to get a *copy* of a transposed matrix, use `INDArray out = myMatrix.transpose().dup()`. After this `dup()` call, there will be no link between the original array `myMatrix` and the array `out` (thus, changes to one will not impact the other).
 
 
-So see how views can be powerful, consider a simple task: adding 1.0 to the first row of a larger array, ```myArray```. We can do this easily, in one line:
+So see how views can be powerful, consider a simple task: adding 1.0 to the first row of a larger array, `myArray`. We can do this easily, in one line:
 
-```myArray.getRow(0).addi(1.0) ```
+`myArray.getRow(0).addi(1.0)`
 
-Let's break down what is happening here. First, the ```getRow(0)``` operation returns an INDArray that is a view of the original. Note that both ```myArrays``` and ```myArray.getRow(0)``` point to the same area in memory:
+Let's break down what is happening here. First, the `getRow(0)` operation returns an INDArray that is a view of the original. Note that both `myArrays` and `myArray.getRow(0)` point to the same area in memory:
 
 ![getRow(0)](../img/row_addi.png)
 
@@ -105,7 +105,7 @@ then, after the addi(1.0) is performed, we have the following situation:
 
 ![getRow(0).addi(1.0)](../img/row_addi_2.png)
 
-As we can see, changes to the NDArray returned by ```myArray.getRow(0)``` will be reflected in the original array ```myArray```; similarly, changes to ```myArray``` will be reflected in the row vector.
+As we can see, changes to the NDArray returned by `myArray.getRow(0)` will be reflected in the original array `myArray`; similarly, changes to `myArray` will be reflected in the row vector.
 
 ## <a name="creating"> Creating NDArrays </a>
 
@@ -113,14 +113,14 @@ As we can see, changes to the NDArray returned by ```myArray.getRow(0)``` will b
 
 Two of the most commonly used methods of creating arrays are:
 
-* ```Nd4j.zeros(int...)```
-* ```Nd4j.ones(int...)```
+* `Nd4j.zeros(int...)`
+* `Nd4j.ones(int...)`
 
-The shape of the arrays are specified as integers. For example, to create a zero-filled array with 3 rows and 5 columns, use ```Nd4j.zeros(3,5)```.
+The shape of the arrays are specified as integers. For example, to create a zero-filled array with 3 rows and 5 columns, use `Nd4j.zeros(3,5)`.
 
 These can often be combined with other operations to create arrays with other values. For example, to create an array filled with 10s:
 
-```INDArray tens = Nd4j.zeros(3,5).addi(10)```
+`INDArray tens = Nd4j.zeros(3,5).addi(10)`
 
 The above initialization works in two steps: first by allocating a 3x5 array filled with zeros, and then by adding 10 to each value.
 
@@ -128,11 +128,11 @@ The above initialization works in two steps: first by allocating a 3x5 array fil
 
 Nd4j provides a few methods to generate INDArrays, where the contents are pseudo-random numbers.
 
-To generate uniform random numbers in the range 0 to 1, use ```Nd4j.rand(int nRows, int nCols)``` (for 2d arrays), or ```Nd4j.rand(int[])``` (for 3 or more dimensions).
+To generate uniform random numbers in the range 0 to 1, use `Nd4j.rand(int nRows, int nCols)` (for 2d arrays), or `Nd4j.rand(int[])` (for 3 or more dimensions).
 
-Similarly, to generate Gaussian random numbers with mean zero and standard deviation 1, use ```Nd4j.randn(int nRows, int nCols)``` or ```Nd4j.randn(int[])```.
+Similarly, to generate Gaussian random numbers with mean zero and standard deviation 1, use `Nd4j.randn(int nRows, int nCols)` or `Nd4j.randn(int[])`.
 
-For repeatability (i.e., to set Nd4j's random number generator seed) you can use ```Nd4j.getRandom().setSeed(long)```
+For repeatability (i.e., to set Nd4j's random number generator seed) you can use `Nd4j.getRandom().setSeed(long)`
 
 ### <a name="createfromjava">Creating NDArrays from Java arrays</a>
 
@@ -140,14 +140,14 @@ Nd4j provides convenience methods for the creation of arrays from Java float and
 
 To create a 1d NDArray from a 1d Java array, use:
 
-* Row vector: ```Nd4j.create(float[])``` or ```Nd4j.create(double[])```
-* Column vector: ```Nd4j.create(float[],new int[]{length,1})``` or ```Nd4j.create(double[],new int[]{length,1})```
+* Row vector: `Nd4j.create(float[])` or `Nd4j.create(double[])`
+* Column vector: `Nd4j.create(float[],new int[]{length,1})` or `Nd4j.create(double[],new int[]{length,1})`
 
-For 2d arrays, use ```Nd4j.create(float[][])``` or ```Nd4j.create(double[][])```.
+For 2d arrays, use `Nd4j.create(float[][])` or `Nd4j.create(double[][])`.
 
-For creating NDArrays from Java primitive arrays with 3 or more dimensions (```double[][][]``` etc), one approach is to use the following:
+For creating NDArrays from Java primitive arrays with 3 or more dimensions (`double[][][]` etc), one approach is to use the following:
 
-```
+```java
 double[] flat = ArrayUtil.flattenDoubleArray(myDoubleArray);
 int[] shape = ...;	//Array shape here
 INDArray myArr = Nd4j.create(flat,shape,'c');
@@ -157,37 +157,37 @@ INDArray myArr = Nd4j.create(flat,shape,'c');
 
 There are three primary ways of creating arrays from other arrays:
 
-* Creating an exact copy of an existing NDArray using ```INDArray.dup()```
+* Creating an exact copy of an existing NDArray using `INDArray.dup()`
 * Create the array as a subset of an existing NDArray
 * Combine a number of existing NDArrays to create a new NDArray
 
 For the second case, you can use getRow(), get(), etc. See <a href="#getset">Getting and Setting Parts of NDArrays</a> for details on this.
 
-Two methods for combining NDArrays are ```Nd4j.hstack(INDArray...)``` and ```Nd4j.vstack(INDArray...)```.
+Two methods for combining NDArrays are `Nd4j.hstack(INDArray...)` and `Nd4j.vstack(INDArray...)`.
 
-```hstack``` (horizontal stack) takes as argument a number of matrices that have the same number of rows, and stacks them horizontally to produce a new array. The input NDArrays can have a different number of columns, however.
+`hstack` (horizontal stack) takes as argument a number of matrices that have the same number of rows, and stacks them horizontally to produce a new array. The input NDArrays can have a different number of columns, however.
 
-```vstack``` (vertical stack) is the vertical equivalent of hstack. The input arrays must have the same number of columns.
+`vstack` (vertical stack) is the vertical equivalent of hstack. The input arrays must have the same number of columns.
 
 
-One other method that can occasionally be useful is ```Nd4j.diag(INDArray in)```. This method has two uses, depending on the argument ```in```:
+One other method that can occasionally be useful is `Nd4j.diag(INDArray in)`. This method has two uses, depending on the argument `in`:
 
-* If ```in``` in a vector, diag outputs a NxN matrix with the diagonal equal to the array ```in``` (where N is the length of ```in```)
-* If ```in``` is a NxN matrix, diag outputs a vector taken from the diagonal of ```in```
+* If `in` in a vector, diag outputs a NxN matrix with the diagonal equal to the array `in` (where N is the length of `in`)
+* If `in` is a NxN matrix, diag outputs a vector taken from the diagonal of `in`
 
 
 
 ### <a name="createother"> Miscellaneous NDArray Creation Methods </a>
 
-To create an [identity matrix](https://en.wikipedia.org/wiki/Identity_matrix) of size N, you can use ```Nd4j.eye(N)```.
+To create an [identity matrix](https://en.wikipedia.org/wiki/Identity_matrix) of size N, you can use `Nd4j.eye(N)`.
 
-To create a row vector with elements ```[a, a+1, a+2, ..., b]``` you can use the linspace command:
+To create a row vector with elements `[a, a+1, a+2, ..., b]` you can use the linspace command:
 
-```Nd4j.linspace(a, b, b-a+1)```
+`Nd4j.linspace(a, b, b-a+1)`
 
 Linspace can be combined with a reshape operation to get other shapes. For example, if you want a 2d NDArray with 5 rows and 5 columns, with values 1 to 25 inclusive, you can use the following:
 
-```Nd4j.linspace(1,25,25).reshape(5,5) ```
+`Nd4j.linspace(1,25,25).reshape(5,5) `
 
 
 ## <a name="individual">Getting and Setting Individual Values</a>
@@ -196,31 +196,31 @@ For an INDArray, you can get or set values using the indexes of the element you 
 
 Note: getting or setting values individually (for example, one at a time in a for loop) is generally a bad idea in terms of performance. When possible, try to use other INDArray methods that operate on a large number of elements at a time.
 
-To get values from a 2d array, you can use: ```INDArray.getDouble(int row, int column)```
+To get values from a 2d array, you can use: `INDArray.getDouble(int row, int column)`
 
-For arrays of any dimensionality, you can use ```INDArray.getDouble(int...)```. For example, to get the value at index ```i,j,k``` use ```INDArray.getDouble(i,j,k)```
+For arrays of any dimensionality, you can use `INDArray.getDouble(int...)`. For example, to get the value at index `i,j,k` use `INDArray.getDouble(i,j,k)`
 
 
 To set values, use one of the putScalar methods:
 
-* ```INDArray.putScalar(int[],double)```
-* ```INDArray.putScalar(int[],float)```
-* ```INDArray.putScalar(int[],int)```
+* `INDArray.putScalar(int[],double)`
+* `INDArray.putScalar(int[],float)`
+* `INDArray.putScalar(int[],int)`
 
-Here, the ```int[]``` is the index, and the ```double/float/int``` is the value to be placed at that index.
+Here, the `int[]` is the index, and the `double/float/int` is the value to be placed at that index.
 
 
-Some additional functionality that might be useful in certain circumstances is the ```NDIndexIterator``` class. The NDIndexIterator allows you to get the indexes in a defined order (specifially, the C-order traversal order: [0,0,0], [0,0,1], [0,0,2], ..., [0,1,0], ... etc for a rank 3 array).
+Some additional functionality that might be useful in certain circumstances is the `NDIndexIterator` class. The NDIndexIterator allows you to get the indexes in a defined order (specifially, the C-order traversal order: [0,0,0], [0,0,1], [0,0,2], ..., [0,1,0], ... etc for a rank 3 array).
 
 To iterate over the values in a 2d array, you can use:
 
-```
-    NdIndexIterator iter = new NdIndexIterator(nRows, nCols);
-    while (iter.hasNext()) {
-        int[] nextIndex = iter.next();
-        double nextVal = myArray.getDouble(nextIndex);
-        //do something with the value
-    }
+```java
+NdIndexIterator iter = new NdIndexIterator(nRows, nCols);
+while (iter.hasNext()) {
+    int[] nextIndex = iter.next();
+    double nextVal = myArray.getDouble(nextIndex);
+    //do something with the value
+}
 ```
 
 
@@ -230,46 +230,46 @@ To iterate over the values in a 2d array, you can use:
 
 ### <a name="getsetrows">getRow() and putRow()</a>
 
-In order to get a single row from an INDArray, you can use ```INDArray.getRow(int)```. This will obviously return a row vector.
-Of note here is that this row is a view: changes to the returned row will impact the original array. This can be quite useful at times (for example: ```myArr.getRow(3).addi(1.0)``` to add 1.0 to the third row of a larger array); if you want a copy of a row, use ```getRow(int).dup()```.
+In order to get a single row from an INDArray, you can use `INDArray.getRow(int)`. This will obviously return a row vector.
+Of note here is that this row is a view: changes to the returned row will impact the original array. This can be quite useful at times (for example: `myArr.getRow(3).addi(1.0)` to add 1.0 to the third row of a larger array); if you want a copy of a row, use `getRow(int).dup()`.
 
-Simiarly, to get multiple rows, use ```INDArray.getRows(int...)```. This returns an array with the rows stacked; note however that this will be a copy (not a view) of the original rows, a view is not possible here due to the way NDArrays are stored in memory.
+Simiarly, to get multiple rows, use `INDArray.getRows(int...)`. This returns an array with the rows stacked; note however that this will be a copy (not a view) of the original rows, a view is not possible here due to the way NDArrays are stored in memory.
 
-For setting a single row, you can use ```myArray.putRow(int rowIdx,INDArray row)```. This will set the ```rowIdx```th row of ```myArray``` to the values contained in the INDArray ```row```.
+For setting a single row, you can use `myArray.putRow(int rowIdx,INDArray row)`. This will set the `rowIdx`th row of `myArray` to the values contained in the INDArray `row`.
 
 
 ### <a name="getsetsub">Sub-Arrays: get(), put() and NDArrayIndex</a>
 
 **Get:**
 
-A more powerful and general method is to use ```INDArray.get(NDArrayIndex...)```. This functionality allows you to get an arbitrary sub-arrays based on certain indexes.
+A more powerful and general method is to use `INDArray.get(NDArrayIndex...)`. This functionality allows you to get an arbitrary sub-arrays based on certain indexes.
 This is perhaps best explained by some examples:
 
 To get a single row (and all columns), you can use:
 
-```myArray.get(NDArrayIndex.point(rowIdx), NDArrayIndex.all()) ```
+`myArray.get(NDArrayIndex.point(rowIdx), NDArrayIndex.all()) `
 
 
-To get a range of rows (row ```a``` (inclusive) to row ```b``` (exclusive)) and all columns, you can use:
+To get a range of rows (row `a` (inclusive) to row `b` (exclusive)) and all columns, you can use:
 
-```myArray.get(NDArrayIndex.interval(a,b), NDArrayIndex.all())```
+`myArray.get(NDArrayIndex.interval(a,b), NDArrayIndex.all())`
 
 To get all rows and every second column, you can use:
 
-```myArray.get(NDArrayIndex.all(),NDArrayIndex.interval(0,2,nCols)) ```
+`myArray.get(NDArrayIndex.all(),NDArrayIndex.interval(0,2,nCols)) `
 
 Though the above examples are for 2d arrays only, the NDArrayIndex approach extends to 3 or more dimensions. For 3 dimension, you would provide 3 INDArrayIndex objects instead of just two, as above.
 
 
-Note that the ```NDArrayIndex.interval(...)```, ```.all()``` and ```.point(int)``` methods always return views of the underlying arrays. Thus, changes to the arrays returned by ```.get()``` will be reflected in the original array.
+Note that the `NDArrayIndex.interval(...)`, `.all()` and `.point(int)` methods always return views of the underlying arrays. Thus, changes to the arrays returned by `.get()` will be reflected in the original array.
 
 
 **Put:**
 
-The same NDArrayIndex approach is also used to put elements to another array: in this case you use the ```INDArray.put(INDArrayIndex[], INDArray toPut)``` method. Clearly, the size of the NDArray ```toPut``` must match the size implied by the provided indexes.
+The same NDArrayIndex approach is also used to put elements to another array: in this case you use the `INDArray.put(INDArrayIndex[], INDArray toPut)` method. Clearly, the size of the NDArray `toPut` must match the size implied by the provided indexes.
 
 
-Also note that ```myArray.put(NDArrayIndex[],INDArray other)``` is functionally equivalent to doing ```myArray.get(INDArrayIndex...).assign(INDArray other)```. Again, this is because ```.get(INDArrayIndex...)``` returns a view of the underlying array, not a copy.
+Also note that `myArray.put(NDArrayIndex[],INDArray other)` is functionally equivalent to doing `myArray.get(INDArrayIndex...).assign(INDArray other)`. Again, this is because `.get(INDArrayIndex...)` returns a view of the underlying array, not a copy.
 
 
 ### <a name="getsettensor">Tensor Along Dimension</a>
@@ -289,19 +289,19 @@ The simplest case is a tensor along a single row or column of a 2d array. Consid
 
 Note that the output of the tensorAlongDimension call with one dimension is a row vector in all cases.
 
-To understand why we get this output: consider the first case in the above diagram. There, we are taking the 0th (first) tensor *along* dimension 0 (dimension 0 being rows); the values (1,5,2) are in a line as we move along dimension 0, hence the output. Similarly, the ```tensorAlongDimension(1,1)``` is the second (*index=1*) tensor along dimension 1; values (5,3,5) are in a line as we move along dimension 1.
+To understand why we get this output: consider the first case in the above diagram. There, we are taking the 0th (first) tensor *along* dimension 0 (dimension 0 being rows); the values (1,5,2) are in a line as we move along dimension 0, hence the output. Similarly, the `tensorAlongDimension(1,1)` is the second (*index=1*) tensor along dimension 1; values (5,3,5) are in a line as we move along dimension 1.
 
 
 The TAD operation can also be executed along multiple dimensions. For example, by specifying two dimensions to execute the TAD operation along, we can use it to get a 2d sub-array from a 3d (or 4d, or 5d...) array. Similarly, by specifying 3 dimensions, we can use it to get a 3d from 4d or higher.
 
 There are two things we need to know about the output, for the TAD operation to be useful.
 
-First, we need to the number of tensors that we can get, for a given set of dimensions. To determine this, we can use the "number of tensors along dimensions" method, ```INDArray.tensorssAlongDimension(int... dimensions)```. This method simply returns the number of tensors along the specified dimensions. In the examples above, we have:
+First, we need to the number of tensors that we can get, for a given set of dimensions. To determine this, we can use the "number of tensors along dimensions" method, `INDArray.tensorssAlongDimension(int... dimensions)`. This method simply returns the number of tensors along the specified dimensions. In the examples above, we have:
 
-* ```myArray.tensorssAlongDimension(0) = 3```
-* ```myArray.tensorssAlongDimension(1) = 3```
-* ```myArray.tensorssAlongDimension(0,1) = 1```
-* ```myArray.tensorssAlongDimension(1,0) = 1```
+* `myArray.tensorssAlongDimension(0) = 3`
+* `myArray.tensorssAlongDimension(1) = 3`
+* `myArray.tensorssAlongDimension(0,1) = 1`
+* `myArray.tensorssAlongDimension(1,0) = 1`
 
 (In the latter 2 cases, note that tensor along dimension would give us the same array out as the original array in - i.e., we get a 2d output from a 2d array).
 
@@ -316,12 +316,6 @@ Here's some examples:
 - For input shape [a,b,c], tensorssAlongDimension(1,2) gives a tensors, and tensorAlongDimension(i,1,2) returns tensors of shape [b,c].
 - For input shape [a,b,c,d], tensorssAlongDimension(1,2) gives a*d tensors, and tensorAlongDimension(i,1,2) returns tensors of shape [b,c].
 - For input shape [a,b,c,d], tensorssAlongDimension(0,2,3) gives b tensors, and tensorAlongDimension(i,0,2,3) returns tensors of shape [a,c,d].
-
-
-
-
-
-
 
 
 ### <a name="getsetslice">Slice</a>
@@ -348,16 +342,16 @@ And two methods of executing each:
 
 Before getting into the specifics of these operations, let's take a moment to consider the difference between *in-place* and *copy* operations.
 
-Many ops have both in-place and copy operations. Suppose we want to add two arrays. Nd4j defines two methods for this: ```INDArray.add(INDArray)``` and ```INDArray.addi(INDArray)```. The former (add) is a copy operation; the latter is an in-place operation - the *i* in *addi* means in-place. This convention (*...i* means in-place, no *i* means copy) holds for other ops that are accessible via the INDArray interface.
+Many ops have both in-place and copy operations. Suppose we want to add two arrays. Nd4j defines two methods for this: `INDArray.add(INDArray)` and `INDArray.addi(INDArray)`. The former (add) is a copy operation; the latter is an in-place operation - the *i* in *addi* means in-place. This convention (*...i* means in-place, no *i* means copy) holds for other ops that are accessible via the INDArray interface.
 
-Suppose we have two INDArrays ```x``` and ```y``` and we do ```INDArray z = x.add(y)``` or ```INDArray z = x.addi(y)```. The results of these operations are shown below.
+Suppose we have two INDArrays `x` and `y` and we do `INDArray z = x.add(y)` or `INDArray z = x.addi(y)`. The results of these operations are shown below.
 
 ![Add](../img/add_v_addi_1.png)
 
 ![Addi](../img/add_v_addi_2.png)
 
 
-Note that with the ```x.add(y)``` operation, the original array ```x``` is not modified. Comparatively, with the in-place version ```x.addi(y)```, the array ```x``` is modified. In both versions of the add operation, an INDArray is returned that contains the result. Note however that in the case of the ```addi``` operation, the result array us actually just the original array ```x```.
+Note that with the `x.add(y)` operation, the original array `x` is not modified. Comparatively, with the in-place version `x.addi(y)`, the array `x` is modified. In both versions of the add operation, an INDArray is returned that contains the result. Note however that in the case of the `addi` operation, the result array us actually just the original array `x`.
 
 
 
@@ -366,13 +360,13 @@ Note that with the ```x.add(y)``` operation, the original array ```x``` is not m
 
 [Scalar ops](https://github.com/deeplearning4j/nd4j/tree/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/api/ops/impl/scalar) are element-wise operations that also take a scalar (i.e., a number). Examples of scalar ops are  add, max, multiply, set and divide operations (see the previous link for a full list).
 
-A number of the methods such as ```INDArray.addi(Number)``` and ```INDArray.divi(Number)``` actually execute scalar ops behind the scenes, so when available, it is more convenient to use these methods.
+A number of the methods such as `INDArray.addi(Number)` and `INDArray.divi(Number)` actually execute scalar ops behind the scenes, so when available, it is more convenient to use these methods.
 
 To execute a scalar op more directly, you can use for example:
 
-```Nd4j.getExecutioner().execAndReturn(new ScalarAdd(myArray,1.0))```
+`Nd4j.getExecutioner().execAndReturn(new ScalarAdd(myArray,1.0))`
 
-Note that ```myArray``` is modified by this operation. If this is not what you want, use ```myArray.dup()```.
+Note that `myArray` is modified by this operation. If this is not what you want, use `myArray.dup()`.
 
 Unlike the remaining ops, scalar ops don't have a sensible interpretation of executing them along a dimension.
 
@@ -382,10 +376,10 @@ Transform ops are operations such as element-wise logarithm, cosine, tanh, recti
 
 To execute an element-wise tanh operation directly (on the full NDArray) you can use:
 
-```INDArray tanh = Nd4j.getExecutioner().execAndReturn(new Tanh(myArr))```
-As with scalar ops mentioned above, transform operations using the above method are *in-place* operations: that is, the NDArray myArr is modified, and the returned array ```tanh``` is actually the same object as the input ```myArr```. Again, you can use ```myArr.dup()``` if you want a copy.
+`INDArray tanh = Nd4j.getExecutioner().execAndReturn(new Tanh(myArr))`
+As with scalar ops mentioned above, transform operations using the above method are *in-place* operations: that is, the NDArray myArr is modified, and the returned array `tanh` is actually the same object as the input `myArr`. Again, you can use `myArr.dup()` if you want a copy.
 
-The [Transforms class](https://github.com/deeplearning4j/nd4j/blob/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/ops/transforms/Transforms.java) also defines some convenience methods, such as: ```INDArray tanh = Transforms.tanh(INDArray in,boolean copy);``` This is equivalent to the method using ```Nd4j.getExecutioner()``` above.
+The [Transforms class](https://github.com/deeplearning4j/nd4j/blob/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/ops/transforms/Transforms.java) also defines some convenience methods, such as: `INDArray tanh = Transforms.tanh(INDArray in,boolean copy);` This is equivalent to the method using `Nd4j.getExecutioner()` above.
 
 ### <a name="opsaccum">Accumulation (Reduction) Ops</a>
 
@@ -393,26 +387,26 @@ When it comes to executing accumulations, there is a key difference between exec
 
 To get the sum of all values in the array:
 
-```double sum = Nd4j.getExecutioner().execAndReturn(new Sum(myArray)).getFinalResult().doubleValue();```
+`double sum = Nd4j.getExecutioner().execAndReturn(new Sum(myArray)).getFinalResult().doubleValue();`
 
 or equivalently (and more conveniently)
 
-```double sum = myArray.sumNumber().doubleValue();```
+`double sum = myArray.sumNumber().doubleValue();`
 
 
 Accumulation ops can also be executed along a dimension. For example, to get the sum of all values in each column (in each column = along dimension 0, or "for values in each row"), you can use:
 
-```INDArray sumOfColumns = Nd4j.getExecutioner().exec(new Sum(myArray),0);```
+`INDArray sumOfColumns = Nd4j.getExecutioner().exec(new Sum(myArray),0);`
 
 or equivalently,
 
-```INDArray sumOfColumns = myArray.sum(0)```
+`INDArray sumOfColumns = myArray.sum(0)`
 
 Suppose this was executed on a 3x3 input array. Visually, this sum operation along dimension 0 operation looks like:
 
 ![Sum along dimension 0](../img/sum_dim0.png)
 
-Note that here, the input has shape ```[3,3]``` (3 rows, 3 columns) and the output has shape ```[1,3]``` (i.e., our output is a row vector). Had we instead done the operation along dimension 1, we would get a column vector with shape ```[3,1]```, with values ```(12,13,11)```.
+Note that here, the input has shape `[3,3]` (3 rows, 3 columns) and the output has shape `[1,3]` (i.e., our output is a row vector). Had we instead done the operation along dimension 1, we would get a column vector with shape `[3,1]`, with values `(12,13,11)`.
 
 Accumulations along dimensions also generalize to NDArrays with 3 or more dimensions.
 
@@ -424,17 +418,17 @@ Examples of index accumulation ops are IMax (argmax), IMin (argmin) and IAMax (a
 
 To get the index of the maximum value in the array:
 
-```int idx = Nd4j.getExecutioner().execAndReturn(new IAMax(myArray)).getFinalResult();```
+`int idx = Nd4j.getExecutioner().execAndReturn(new IAMax(myArray)).getFinalResult();`
 
 Index accumulation ops are often most useful when executed along a dimension. For example, to get the index of the maximum value in each column (in each column = along dimension 0), you can use:
 
-```INDArray idxOfMaxInEachColumn = Nd4j.getExecutioner().exec(new IAMax(myArray),0);```
+`INDArray idxOfMaxInEachColumn = Nd4j.getExecutioner().exec(new IAMax(myArray),0);`
 
 Suppose this was executed on a 3x3 input array. Visually, this argmax/IAMax operation along dimension 0 operation looks like:
 
 ![Argmax / IAMax](../img/argmax_dim0.png)
 
-As with the accumulation op described above, the output has shape ```[1,3]```. Again, had we instead done the operation along dimension 1, we would get a column vector with shape ```[3,1]```, with values ```(2,0,2)```.
+As with the accumulation op described above, the output has shape `[1,3]`. Again, had we instead done the operation along dimension 1, we would get a column vector with shape `[3,1]`, with values `(2,0,2)`.
 
 
 ### <a name="opsbroadcast">Broadcast and Vector Ops</a>
@@ -443,11 +437,11 @@ ND4J also defines broadcast and vector operations.
 
 Some of the more useful operations are vector operations, such as addRowVector and muliColumnVector.
 
-Consider for example the operation ```x.addRowVector(y)``` where ```x``` is a matrix and ```y``` is a row vector. In this case, the ```addRowVector``` operation adds the row vector ```y``` to each row of the matrix ```x```, as shown below.
+Consider for example the operation `x.addRowVector(y)` where `x` is a matrix and `y` is a row vector. In this case, the `addRowVector` operation adds the row vector `y` to each row of the matrix `x`, as shown below.
 
 ![addRowVector](../img/addrowvector.png)
 
-As with other ops, there are inplace and copy versions. There are also column column versions of these operations, such as ```addColumnVector```, which adds a column vector to each column of the original INDArray.
+As with other ops, there are inplace and copy versions. There are also column column versions of these operations, such as `addColumnVector`, which adds a column vector to each column of the original INDArray.
 
 
 
@@ -468,16 +462,16 @@ ND4J currently allows INDArrays to be backed by either float or double-precision
 
 For 0.4-rc3.8 and earlier:
 
-```
-	Nd4j.dtype = DataBuffer.Type.DOUBLE;
-    NDArrayFactory factory = Nd4j.factory();
-    factory.setDType(DataBuffer.Type.DOUBLE);
+```java
+Nd4j.dtype = DataBuffer.Type.DOUBLE;
+NDArrayFactory factory = Nd4j.factory();
+factory.setDType(DataBuffer.Type.DOUBLE);
 ```
 
 For 0.4-rc3.9 and later:
 
-```
-	DataTypeUtil.setDTypeForContext(DataBuffer.Type.DOUBLE);
+```java
+DataTypeUtil.setDTypeForContext(DataBuffer.Type.DOUBLE);
 ```
 
 
@@ -492,7 +486,7 @@ Flattening is the process of taking a or more INDArrays and converting them into
 
 Nd4j provides the following methods for this:
 
-```
+```java
 Nd4j.toFlattened(char order, INDArray... arrays)
 Nd4j.toFlattened(char order, Collection<INDArray>)
 ```
@@ -524,35 +518,35 @@ Nd4j also provides overloaded toFlattened methods with the default ordering. The
 
 This section lists the most commonly used operations in ND4J, in a summary form. More details on most of these can be found later in this page.
 
-In this section, assume that ```arr```, ```arr1``` etc are INDArrays.
+In this section, assume that `arr`, `arr1` etc are INDArrays.
 
 **Creating NDArrays**:
 
-* Create a zero-initialized array: ```Nd4j.zeros(nRows, nCols)``` or ```Nd4j.zeros(int...)```
-* Create a one-initialized array: ```Nd4j.ones(nRows, nCols)```
-* Create a copy (duplicate) of an NDArray: ```arr.dup()```
-* Create a row/column vector from a ```double[]```: ```myRow = Nd4j.create(myDoubleArr)```, ```myCol = Nd4j.create(myDoubleArr,new int[]{10,1})```
-* Create a 2d NDArray from a ```double[][]```: ```Nd4j.create(double[][])```
-* Stacking a set of arrays to make a larger array: ```Nd4j.hstack(INDArray...)```, ```Nd4j.vstack(INDArray...)``` for horizontal and vertical respectively
-* Uniform random NDArrays: ```Nd4j.rand(int,int)```, ```Nd4j.rand(int[])``` etc
-* Normal(0,1) random NDArrays: ```Nd4j.randn(int,int)```, ```Nd4j.randn(int[])```
+* Create a zero-initialized array: `Nd4j.zeros(nRows, nCols)` or `Nd4j.zeros(int...)`
+* Create a one-initialized array: `Nd4j.ones(nRows, nCols)`
+* Create a copy (duplicate) of an NDArray: `arr.dup()`
+* Create a row/column vector from a `double[]`: `myRow = Nd4j.create(myDoubleArr)`, `myCol = Nd4j.create(myDoubleArr,new int[]{10,1})`
+* Create a 2d NDArray from a `double[][]`: `Nd4j.create(double[][])`
+* Stacking a set of arrays to make a larger array: `Nd4j.hstack(INDArray...)`, `Nd4j.vstack(INDArray...)` for horizontal and vertical respectively
+* Uniform random NDArrays: `Nd4j.rand(int,int)`, `Nd4j.rand(int[])` etc
+* Normal(0,1) random NDArrays: `Nd4j.randn(int,int)`, `Nd4j.randn(int[])`
 
 **Determining the Size/Dimensions of an INDArray**:
 
 The following methods are defined by the INDArray interface:
 
-* Get the number of dimensions: ```rank()```
-* For 2d NDArrays only: ```rows()```, ```columns()```
-* Size of the ith dimension: ```size(i)```
-* Get the size of all dimensions, as an int[]: ```shape()```
-* Determine the total number of elements in array: ```arr.length()```
-* See also: ```isMatrix()```, ```isVector()```, ```isRowVector()```, ```isColumnVector()```
+* Get the number of dimensions: `rank()`
+* For 2d NDArrays only: `rows()`, `columns()`
+* Size of the ith dimension: `size(i)`
+* Get the size of all dimensions, as an int[]: `shape()`
+* Determine the total number of elements in array: `arr.length()`
+* See also: `isMatrix()`, `isVector()`, `isRowVector()`, `isColumnVector()`
 
 **Getting and Setting Single Values**:
 
-* Get the value at row i, column j: ```arr.getDouble(i,j)```
-* Getting a values from a 3+ dimenional array: ```arr.getDouble(int[])```
-* Set a single value in an array: ```arr.putScalar(int[],double)```
+* Get the value at row i, column j: `arr.getDouble(i,j)`
+* Getting a values from a 3+ dimenional array: `arr.getDouble(int[])`
+* Set a single value in an array: `arr.putScalar(int[],double)`
 
 **Scalar operations**:
 Scalar operations take a double/float/int value and do an operation for each As with element-wise operations, there are in-place and copy operations.
@@ -568,40 +562,40 @@ Scalar operations take a double/float/int value and do an operation for each As 
 **Element-Wise Operations**:
 Note: there are copy (add, mul, etc) and in-place (addi, muli) operations. The former: arr1 is not modified. In the latter: arr1 is modified
 
-* Adding: ```arr1.add(arr2)```
-* Subtract: ```arr.sub(arr2)```
-* Multiply: ```add1.mul(arr2)```
-* Divide: ```arr1.div(arr2)```
-* Assignment (set each value in arr1 to those in arr2): ```arr1.assign(arr2)```
+* Adding: `arr1.add(arr2)`
+* Subtract: `arr.sub(arr2)`
+* Multiply: `add1.mul(arr2)`
+* Divide: `arr1.div(arr2)`
+* Assignment (set each value in arr1 to those in arr2): `arr1.assign(arr2)`
 
 **Reduction Operations (sum, etc)**;
-Note that these operations operate on the entire array. Call ```.doubleValue()``` to get a double out of the returned Number.
+Note that these operations operate on the entire array. Call `.doubleValue()` to get a double out of the returned Number.
 
-* Sum of all elements: ```arr.sumNumber()```
-* Product of all elements: ```arr.prod()```
-* L1 and L2 norms: ```arr.norm1()``` and ```arr.norm2()```
-* Standard deviation of all elements: ```arr.stdNumber()```
+* Sum of all elements: `arr.sumNumber()`
+* Product of all elements: `arr.prod()`
+* L1 and L2 norms: `arr.norm1()` and `arr.norm2()`
+* Standard deviation of all elements: `arr.stdNumber()`
 
 **Linear Algebra Operations**:
 
-* Matrix multiplication: ```arr1.mmul(arr2)```
-* Transpose a matrix: ```transpose()```
-* Get the diagonal of a matrix: ```Nd4j.diag(INDArray)```
-* Matrix inverse: ```InvertMatrix.invert(INDArray,boolean)```
+* Matrix multiplication: `arr1.mmul(arr2)`
+* Transpose a matrix: `transpose()`
+* Get the diagonal of a matrix: `Nd4j.diag(INDArray)`
+* Matrix inverse: `InvertMatrix.invert(INDArray,boolean)`
 
 **Getting Parts of a Larger NDArray**:
-Note: all of these methods return 
+Note: all of these methods return
 
-* Getting a row (2d NDArrays only): ```getRow(int)```
-* Getting multiple rows as a matrix (2d only): ```getRows(int...)```
-* Setting a row (2d NDArrays only): ```putRow(int,INDArray)```
-* Getting the first 3 rows, all columns: ```Nd4j.create(0).get(NDArrayIndex.interval(0,3),NDArrayIndex.all());```
+* Getting a row (2d NDArrays only): `getRow(int)`
+* Getting multiple rows as a matrix (2d only): `getRows(int...)`
+* Setting a row (2d NDArrays only): `putRow(int,INDArray)`
+* Getting the first 3 rows, all columns: `Nd4j.create(0).get(NDArrayIndex.interval(0,3),NDArrayIndex.all());`
 
 **Element-Wise Transforms (Tanh, Sigmoid, Sin, Log etc)**:
 
-* Using [Transforms](https://github.com/deeplearning4j/nd4j/blob/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/ops/transforms/Transforms.java): ```Transforms.sin(INDArray)```, ```Transforms.log(INDArray)```, ```Transforms.sigmoid(INDArray)``` etc
-* Directly (method 1): ```Nd4j.getExecutioner().execAndReturn(new Tanh(INDArray))```
-* Directly (method 2) ```Nd4j.getExecutioner().execAndReturn(Nd4j.getOpFactory().createTransform("tanh",INDArray))```
+* Using [Transforms](https://github.com/deeplearning4j/nd4j/blob/master/nd4j-backends/nd4j-api-parent/nd4j-api/src/main/java/org/nd4j/linalg/ops/transforms/Transforms.java): `Transforms.sin(INDArray)`, `Transforms.log(INDArray)`, `Transforms.sigmoid(INDArray)` etc
+* Directly (method 1): `Nd4j.getExecutioner().execAndReturn(new Tanh(INDArray))`
+* Directly (method 2) `Nd4j.getExecutioner().execAndReturn(Nd4j.getOpFactory().createTransform("tanh",INDArray))`
 
 
 
@@ -618,7 +612,3 @@ There are two possible work-arounds:
 
 1. Allocate a new array and do a copy (for example, a .put() operation)
 2. Initially, pre-allocate a larger than required NDArray, and then operate on a view of that array. Then, as you need a larger array, get a larger view on the original pre-allocated array.
-
-
-
-

@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: default
 title: "Dependencies"
 description: "Dependencies - How to change backends"
 ---
-{% include JB/setup %}
+
 
 ## Platform Specific Binaries
 
@@ -75,7 +75,7 @@ Maven can automatically install the required dependencies once we select one of 
 
 * [nd4j-native]
 * [nd4j-cuda-7.5](./gpu_native_backends) (for GPUs)
- 
+
 Go to your root directory -- e.g. nd4j or deeplearning4j -- and inspect the [pom.xml file](https://maven.apache.org/pom.html). You should see one backend defined in the `<dependencies> ... </dependencies>` section. You can switch among:
 
 ### native
@@ -83,22 +83,22 @@ Go to your root directory -- e.g. nd4j or deeplearning4j -- and inspect the [pom
 After version `4.0-RC3.8`, you can now include nd4j-native for all platforms.
 
 ```xml
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-native</artifactId>
-            <version>${nd4j.version}</version>
-        </dependency>
+<dependency>
+    <groupId>org.nd4j</groupId>
+    <artifactId>nd4j-native</artifactId>
+    <version>${nd4j.version}</version>
+</dependency>
 ```
 ### CUDA (GPUs)
 
 See our [GPU page](./gpu_native_backends) for the versions you can choose.
 
 ```xml
-        <dependency>
-            <groupId>org.nd4j</groupId>
-            <artifactId>nd4j-cuda-7.5</artifactId>
-            <version>${nd4j.version}</version>
-        </dependency>
+<dependency>
+    <groupId>org.nd4j</groupId>
+    <artifactId>nd4j-cuda-7.5</artifactId>
+    <version>${nd4j.version}</version>
+</dependency>
 ```
 
 ### JOCL
@@ -113,4 +113,4 @@ They can be found on: [search.maven.org](http://search.maven.org/#search%7Cga%7C
 
 And paste it into the "dependencies" section of your pom.xml, which should end up looking like this in IntelliJ:
 
-![Alt text](../img/nd4j_pom_after.png) 
+![Alt text](../img/nd4j_pom_after.png)

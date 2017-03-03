@@ -6,7 +6,7 @@ description: ""
 
 To see the complete nd4j-api reference, consult the [Javadocs](../doc).
 
-{% include JB/setup %}
+
 
 The basic operations of linear algebra are matrix creation, addition and multiplication. This guide will show you how to perform those operations with ND4J, as well as various advanced transforms.
 

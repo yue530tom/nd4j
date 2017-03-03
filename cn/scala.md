@@ -3,7 +3,7 @@ layout: cn-default
 title: "ND4J, Scala & Scientific Computing"
 description:
 ---
-{% include JB/setup %}
+
 
 ND4J's Scala API is called ND4S, which lives [here on Github](https://github.com/deeplearning4j/nd4s).
 

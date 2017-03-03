@@ -3,7 +3,7 @@ layout: cn-default
 title: "Functions"
 description: ""
 ---
-{% include JB/setup %}
+
 
 A static import at the top of your Java file makes advanced functions fairly simple to use with ND4J:
 

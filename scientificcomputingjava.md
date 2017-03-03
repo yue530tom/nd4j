@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: default
 title: "Scientific Computing in Java and Scala"
 description: ""
 ---
-{% include JB/setup %}
+
 
 Many of the most important and challenging problems in science and engineering require significant computing resources to model and simulate natural phenomenon. Some example problems include: the human genome project, computational fluid dynamics, ocean circulation, plasma dynamics, vehicle crash simulation, architecture walk-through, global climate simulation, financial modeling, seismic surveys, molecular dynamics simulations, protein folding, electronic design, nuclear weapons simulation, pharmaceutical design, and natural language processing. These grand challenge problems have the potential for broad scientific, social, economic, and political impact.
 

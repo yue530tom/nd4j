@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: default
 title: "Getting Data Into Canova"
 description: ""
 ---
-{% include JB/setup %}
+
 
 ## Raw Text as Input
 

@@ -1,24 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 
-{% include new-header.html %}
-<!-- Article Specific CSS -->
-<style>
-/* Fix subscribe form formatting */
-li.subscribe-form {
-  padding: 2px 20px !important;
-}
-.hs-richtext {
-  margin-bottom: -30px;
-}
-.hs-button {
-  background-color: #2196f3;
-  border-color: #2196f3;
-  color: #fff;
-  margin-top: 10px;
-}
-</style>
-<!-- END Article Specific CSS -->
+{% include header.html %}
 
 <!-- Top Navigation -->
 <header class="site-header navbar-fullwidth">
@@ -26,7 +9,7 @@ li.subscribe-form {
 </header>
 <!-- END Top Navigation -->
 <!-- Sidebar -->
-<aside class="sidebar sidebar-boxed sidebar-dark">
+<aside class="sidebar sidebar-boxed">
   <a class="sidebar-brand" href="../index.html"><img src="../assets/themes/thedocs/img/ND4J-LOGO.png" alt="ND4J"></a>
     {% include cn-sidebar.html %}
 </aside>

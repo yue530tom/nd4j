@@ -3,7 +3,7 @@ layout: cn-default
 title: "Dependencies"
 description: "Dependencies - How to change backends"
 ---
-{% include JB/setup %}
+
 
 ## Platform Specific Binaries
 

@@ -3,7 +3,7 @@ layout: cn-default
 title: "ND4J Syntax"
 description: ""
 ---
-{% include JB/setup %}
+
 
 For the complete nd4j-api index, please consult the [Javadoc](../doc).
 

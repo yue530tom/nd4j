@@ -3,7 +3,7 @@ layout: cn-default
 title: "Matrix Operations"
 description: ""
 ---
-{% include JB/setup %}
+
 
 Elementwise operations are more intuitive than vectorwise operations, because the elements of one matrix map clearly onto the other, and to obtain the result, you have to perform just one arithmetical operation. (The example code [lives here](https://github.com/SkymindIO/nd4j-examples/blob/master/src/main/java/org/nd4j/examples/MatrixOperationExample.java).)
 

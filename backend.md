@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: default
 title: "ND4J Backends: How They Work"
 description: "Linear Algebra Backends Jblas, Netlib Blas, Jcublas"
 ---
-{% include JB/setup %}
+
 
 ND4J works atop so-called backends, or linear-algebra libraries, such as Native `nd4j-native` and `nd4j-cuda-7.5` (GPUs), which you can select by pasting the [right dependency into your project's POM.xml file](http://nd4j.org/dependencies.html). 
 

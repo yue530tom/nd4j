@@ -1,9 +1,9 @@
 ---
-layout: page
+layout: default
 title: "Operations"
 description: "Operations"
 ---
-{% include JB/setup %}
+
 
 ND4J allows you to manipulate matrices with the standard linear algebra operations.
 
