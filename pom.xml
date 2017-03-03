@@ -292,7 +292,7 @@
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
-                    <name>perform</name>
+                    <name>sign.gpg</name>
                 </property>
             </activation>
             <build>
