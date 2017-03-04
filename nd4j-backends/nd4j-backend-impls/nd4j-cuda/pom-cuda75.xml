@@ -285,7 +285,9 @@
         <profile>
             <id>msvc</id>
             <activation>
-                <os><family>windows</family></os>
+                <os>
+                    <family>windows</family>
+                </os>
             </activation>
             <build>
                 <plugins>
@@ -311,7 +313,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${basedir}/cuda75.bat</executable>
+                                    <executable>${basedir}/cuda80.bat</executable>
                                 </configuration>
                             </execution>
                         </executions>
@@ -320,5 +322,6 @@
             </build>
         </profile>
     </profiles>
+
 
 </project>
