@@ -311,7 +311,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${basedir}/cuda80.bat</executable>
+                                    <executable>${basedir}/cuda75.bat</executable>
                                 </configuration>
                             </execution>
                         </executions>
