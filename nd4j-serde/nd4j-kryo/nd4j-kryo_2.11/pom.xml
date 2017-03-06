@@ -1,6 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>nd4j-serde</artifactId>
+        <artifactId>nd4j-kryo</artifactId>
         <groupId>org.nd4j</groupId>
         <version>0.7.2-SNAPSHOT</version>
     </parent>
@@ -17,6 +20,8 @@
     </properties>
 
     <build>
+        <sourceDirectory>../src/main/java</sourceDirectory>
+        <testSourceDirectory>../src/test/java</testSourceDirectory>
         <directory>${buildDirectory}</directory>
     </build>
 
@@ -58,4 +63,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>

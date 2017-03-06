@@ -12,7 +12,8 @@
     <name>nd4j-camel-routes</name>
     <url>http://nd4j.org</url>
     <modules>
-        <module>nd4j-kafka</module>
+        <module>nd4j-kafka_2.10</module>
+        <module>nd4j-kafka_2.11</module>
     </modules>
 
     <properties>

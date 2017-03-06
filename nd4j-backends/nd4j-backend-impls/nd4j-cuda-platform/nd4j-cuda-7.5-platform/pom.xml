@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>nd4j-cuda-platform</artifactId>
+        <groupId>org.nd4j</groupId>
+        <version>0.7.2-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nd4j-cuda-7.5-platform</artifactId>
+    <packaging>pom</packaging>
+
+
+    <properties>
+        <cuda.version>7.5</cuda.version>
+        <nd4j.backend>nd4j-cuda-${cuda.version}</nd4j.backend>
+        <buildDirectory>${project.basedir}/target</buildDirectory>
+    </properties>
+
+    <build>
+        <directory>${buildDirectory}</directory>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${project.version}</version>
+            <classifier>${javacpp.platform.linux-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${project.version}</version>
+            <classifier>${javacpp.platform.macosx-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${project.version}</version>
+            <classifier>${javacpp.platform.windows-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${nd4j.backend}</artifactId>
+            <version>${project.version}</version>
+            <classifier>${javacpp.platform.linux-ppc64le}</classifier>
+        </dependency>
+    </dependencies>
+
+</project>

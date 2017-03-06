@@ -61,13 +61,6 @@
         <module>nd4j-backends</module>
         <module>nd4j-parameter-server-parent</module>
 
-
-        <module>nd4j-serde/nd4j-kryo/pom-scala-2_11.xml</module>
-        <module>nd4j-serde/nd4j-camel-routes/nd4j-kafka/pom-scala-2_11.xml</module>
-        <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda/pom-cuda75.xml</module>
-        <module>nd4j-backends/nd4j-backend-impls/nd4j-cuda-platform/pom-cuda75.xml</module>
-        <module>nd4j-parameter-server-parent/nd4j-parameter-server-status/pom-scala-2_11.xml</module>
-        <module>nd4j-parameter-server-parent/nd4j-parameter-server-node/pom-scala-2_11.xml</module>
     </modules>
 
     <properties>

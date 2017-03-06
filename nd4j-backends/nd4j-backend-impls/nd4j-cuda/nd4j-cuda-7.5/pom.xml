@@ -1,26 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>nd4j-backend-impls</artifactId>
+        <artifactId>nd4j-cuda</artifactId>
         <groupId>org.nd4j</groupId>
         <version>0.7.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>nd4j-cuda-7.5</artifactId>
-    <name>${project.artifactId}</name>
 
     <properties>
         <cuda.version>7.5</cuda.version>
-        <env.LIBND4J_HOME>${basedir}/../../../../libnd4j/</env.LIBND4J_HOME>
+        <env.LIBND4J_HOME>${basedir}/../../../../../libnd4j</env.LIBND4J_HOME>
         <buildDirectory>${project.basedir}/target</buildDirectory>
     </properties>
 
     <build>
+        <sourceDirectory>../src/main/java</sourceDirectory>
         <directory>${buildDirectory}</directory>
-        <testSourceDirectory>../../nd4j-tests/src/test/java</testSourceDirectory>
+        <testSourceDirectory>../../../nd4j-tests/src/test/java</testSourceDirectory>
         <testResources>
             <testResource>
-                <directory>${project.basedir}/../../nd4j-tests/src/test/resources</directory>
+                <directory>${project.basedir}/../../../nd4j-tests/src/test/resources</directory>
             </testResource>
         </testResources>
         <plugins>
@@ -30,7 +33,7 @@
                 <version>1.5.0</version>
                 <executions>
                     <execution><!-- Run our version calculation script -->
-                        <id>Cuda preparation</id>
+                        <id>Version Calculation</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>exec</goal>
@@ -54,9 +57,9 @@
                 <configuration>
                     <argLine>-Xmx8G</argLine>
                     <environmentVariables>
-                        <LD_LIBRARY_PATH>${env.LD_LIBRARY_PATH}:${user.dir}:${env.LIBND4J_HOME}/blasbuild/cuda/blas/</LD_LIBRARY_PATH>
+                        <LD_LIBRARY_PATH>${env.LD_LIBRARY_PATH}:${user.dir}:${env.LIBND4J_HOME}/blasbuild/cuda/blas</LD_LIBRARY_PATH>
                     </environmentVariables>
-                    <testSourceDirectory>../../nd4j-tests/src/test/java</testSourceDirectory>
+                    <testSourceDirectory>../../../nd4j-tests/src/test/java</testSourceDirectory>
                     <includes>
                         <include>*.java</include>
                     </includes>
@@ -228,7 +231,6 @@
             <version>${cuda.version}-${javacpp-presets.version}</version>
             <classifier>linux-ppc64le</classifier>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -313,7 +315,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${basedir}/cuda80.bat</executable>
+                                    <executable>${basedir}/cuda75.bat</executable>
                                 </configuration>
                             </execution>
                         </executions>
@@ -322,6 +324,5 @@
             </build>
         </profile>
     </profiles>
-
 
 </project>

@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>nd4j-parameter-server-parent</artifactId>
         <groupId>org.nd4j</groupId>
@@ -17,6 +20,8 @@
     </properties>
 
     <build>
+        <sourceDirectory>../nd4j-parameter-server-status_2.10/src/main/java</sourceDirectory>
+        <testSourceDirectory>../nd4j-parameter-server-status_2.10/src/test/java</testSourceDirectory>
         <directory>${buildDirectory}</directory>
     </build>
 
@@ -50,4 +55,5 @@
         </dependency>
 
     </dependencies>
+
 </project>

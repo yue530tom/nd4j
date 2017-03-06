@@ -13,7 +13,7 @@ echo %CD%
 echo.
 echo [INFO] Switch directory to:
 echo. 
-IF DEFINED LIBND4J_HOME ( CD %LIBND4J_HOME%/blasbuild ) ELSE ( CD ../../../../libnd4j/blasbuild )
+IF DEFINED LIBND4J_HOME ( CD %LIBND4J_HOME%/blasbuild ) ELSE ( CD ../../../../../libnd4j/blasbuild )
 echo %CD%
 echo. 
 echo [INFO] Delete directory if exist
@@ -22,7 +22,7 @@ IF EXIST cuda RD /q /s cuda
 echo. 
 echo [INFO] Copy directory for CUDA 8.0
 echo. 
-XCOPY /E /S  cuda-7.5 cuda\
+XCOPY /E /S  cuda-8.0 cuda\
 echo. 
 echo [INFO] Ceck result
 echo. 
