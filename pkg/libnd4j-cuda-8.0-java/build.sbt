@@ -28,5 +28,5 @@ daemonUser in Linux := "root"
 
 defaultLinuxInstallLocation := "/opt/"
 
-debianPackageDependencies in Debian ++= Seq("java2-runtime")
+debianPackageDependencies in Debian ++= Seq("java2-runtime-headless")
 
