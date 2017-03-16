@@ -42,6 +42,7 @@ import org.nd4j.linalg.api.instrumentation.InMemoryInstrumentation;
 import org.nd4j.linalg.api.instrumentation.Instrumentation;
 import org.nd4j.linalg.api.ndarray.BaseShapeInfoProvider;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.api.ndarray.ISparseMatrix;
 import org.nd4j.linalg.api.ndarray.ShapeInfoProvider;
 import org.nd4j.linalg.api.ops.executioner.DefaultOpExecutioner;
 import org.nd4j.linalg.api.ops.executioner.OpExecutioner;
@@ -142,6 +143,7 @@ public class Nd4j {
 
     protected static Class<? extends BlasWrapper> blasWrapperClazz;
     protected static Class<? extends NDArrayFactory> ndArrayFactoryClazz;
+    protected static Class<? extends ISparseMatrixFactory> iSparseMatrixFactoryclazz;
     protected static Class<? extends FFTInstance> fftInstanceClazz;
     protected static Class<? extends ConvolutionInstance> convolutionInstanceClazz;
     protected static Class<? extends DataBufferFactory> dataBufferFactoryClazz;
@@ -158,6 +160,7 @@ public class Nd4j {
     protected static DataBufferFactory DATA_BUFFER_FACTORY_INSTANCE;
     protected static BlasWrapper BLAS_WRAPPER_INSTANCE;
     protected static NDArrayFactory INSTANCE;
+    protected static ISparseMatrixFactory SPARSE_INSTANCE;
     protected static FFTInstance FFT_INSTANCE;
     protected static ConvolutionInstance CONVOLUTION_INSTANCE;
     protected static OpExecutioner OP_EXECUTIONER_INSTANCE;
@@ -496,7 +499,9 @@ public class Nd4j {
     public static void setNdArrayFactoryClazz(Class<? extends NDArrayFactory> clazz) {
         ndArrayFactoryClazz = clazz;
     }
-
+    public static void setiSparseMatrixFactoryclazz(Class<? extends ISparseMatrixFactory> clazz) {
+        iSparseMatrixFactoryclazz = clazz;
+    }
     /**
      * Get the current random generator
      *
@@ -1349,6 +1354,10 @@ public class Nd4j {
 
     public static void setFactory(NDArrayFactory factory) {
         INSTANCE = factory;
+    }
+
+    public static void setSparseFactory(ISparseMatrixFactory factory) {
+        SPARSE_INSTANCE = factory;
     }
 
     /**
@@ -4826,6 +4835,11 @@ public class Nd4j {
         logCreationIfNecessary(ret);
         return ret;
     }
+    // TODO change to INDArray
+    public static ISparseMatrix/*INDArray*/ createSparseCSR(double[] data, int[] columns, int[] pointerB, int[] pointerE, int nnz, int[] shape) {
+        ISparseMatrix matrix = SPARSE_INSTANCE.createSparse(data, columns, pointerB, pointerE, nnz, shape);
+        return matrix;
+    }
 
     ////////////////////// OTHER ///////////////////////////////
 
@@ -5659,6 +5673,7 @@ public class Nd4j {
             FFT_INSTANCE = fftInstanceClazz.newInstance();
             Constructor c2 = ndArrayFactoryClazz.getConstructor(DataBuffer.Type.class, char.class);
             INSTANCE = (NDArrayFactory) c2.newInstance(dtype, ORDER);
+            // TODO set SPARSE_INSTANCE
             CONVOLUTION_INSTANCE = convolutionInstanceClazz.newInstance();
             BLAS_WRAPPER_INSTANCE = blasWrapperClazz.newInstance();
             DATA_BUFFER_FACTORY_INSTANCE = dataBufferFactoryClazz.newInstance();
