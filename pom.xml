@@ -178,6 +178,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
                         <configuration>
                             <skip>true</skip>
                         </configuration>
@@ -273,6 +274,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
                         <configuration>
                             <skip>true</skip>
                         </configuration>
