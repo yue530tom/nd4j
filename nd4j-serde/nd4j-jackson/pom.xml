@@ -3,7 +3,7 @@
     <parent>
         <artifactId>nd4j-serde</artifactId>
         <groupId>org.nd4j</groupId>
-        <version>0.7.3-SNAPSHOT</version>
+        <version>0.8.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -33,6 +33,7 @@
             <groupId>org.nd4j</groupId>
             <artifactId>jackson</artifactId>
             <version>${project.version}</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 
