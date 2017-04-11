@@ -6,9 +6,9 @@ import org.nd4j.linalg.api.complex.IComplexNumber;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 /**
- * Created by audrey on 3/13/17.
+ * @author Audrey Loeffel
  */
-public class SparseBaseLevel2 extends SparseBaseLevel implements Level2{
+public abstract class SparseBaseLevel2 extends SparseBaseLevel implements Level2{
     @Override
     public void gemv(char order, char transA, double alpha, INDArray A, INDArray X, double beta, INDArray Y) {
 

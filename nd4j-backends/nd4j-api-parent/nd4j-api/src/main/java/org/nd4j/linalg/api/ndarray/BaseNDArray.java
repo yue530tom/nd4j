@@ -23,12 +23,15 @@ package org.nd4j.linalg.api.ndarray;
 import com.google.common.primitives.Ints;
 import net.ericaro.neoitertools.Generator;
 import org.apache.commons.math3.util.Pair;
+import org.bytedeco.javacpp.Pointer;
 import org.nd4j.linalg.api.blas.BlasBufferUtil;
 import org.nd4j.linalg.api.buffer.DataBuffer;
 import org.nd4j.linalg.api.complex.IComplexNDArray;
 import org.nd4j.linalg.api.complex.IComplexNumber;
 import org.nd4j.linalg.api.instrumentation.Instrumentation;
 import org.nd4j.linalg.api.iter.FirstAxisIterator;
+import org.nd4j.linalg.api.memory.MemoryWorkspace;
+import org.nd4j.linalg.api.ops.executioner.GridExecutioner;
 import org.nd4j.linalg.api.ops.executioner.OpExecutioner;
 import org.nd4j.linalg.api.ops.impl.accum.*;
 import org.nd4j.linalg.api.ops.impl.accum.Max;
@@ -42,6 +45,7 @@ import org.nd4j.linalg.api.ops.impl.transforms.Negative;
 import org.nd4j.linalg.api.ops.impl.transforms.arithmetic.*;
 import org.nd4j.linalg.api.ops.impl.transforms.comparison.*;
 import org.nd4j.linalg.api.shape.Shape;
+import org.nd4j.linalg.exception.ND4JIllegalStateException;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.*;
 import org.nd4j.linalg.indexing.conditions.Condition;
@@ -1502,7 +1506,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray neg() {
-        return dup().negi();
+        return Nd4j.getExecutioner().exec(new Negative(this, Nd4j.createUninitialized(this.shape(), this.ordering()))).z();
     }
 
     /**
@@ -1516,7 +1520,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray rdiv(Number n, INDArray result) {
-        return dup().rdivi(n, result);
+        return rdivi(n, result);
     }
 
     @Override
@@ -1532,7 +1536,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray rsub(Number n, INDArray result) {
-        return dup().rsubi(n, result);
+        return rsubi(n, result);
     }
 
     @Override
@@ -1550,7 +1554,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray div(Number n, INDArray result) {
-        return dup().divi(n, result);
+        return divi(n, result);
     }
 
     @Override
@@ -1569,7 +1573,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray mul(Number n, INDArray result) {
-        return dup().muli(n, result);
+        return muli(n, result);
     }
 
     @Override
@@ -1586,7 +1590,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray sub(Number n, INDArray result) {
-        return dup().subi(n, result);
+        return subi(n, result);
     }
 
     @Override
@@ -1604,7 +1608,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray add(Number n, INDArray result) {
-        return dup().addi(n, result);
+        return addi(n, result);
     }
 
     @Override
@@ -1612,7 +1616,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
         if (Double.isNaN(n.doubleValue()))
             n = Nd4j.EPS_THRESHOLD;
         Nd4j.getExecutioner().exec(new ScalarAdd(this, null, result, result.lengthLong(), n));
-        return this;
+        return result;
     }
 
 
@@ -2744,7 +2748,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray mmul(INDArray other, INDArray result) {
-        return dup().mmuli(other, result);
+        return mmuli(other, result);
     }
 
     /**
@@ -2755,7 +2759,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray div(INDArray other) {
-        return dup().divi(other);
+        return divi(other, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     /**
@@ -2767,7 +2771,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray div(INDArray other, INDArray result) {
-        return dup().divi(other, result);
+        return divi(other, result);
     }
 
     /**
@@ -2778,7 +2782,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray mul(INDArray other) {
-        return dup().muli(other);
+        return muli(other, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     /**
@@ -2790,7 +2794,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray mul(INDArray other, INDArray result) {
-        return dup().muli(other, result);
+        return muli(other, result);
     }
 
     /**
@@ -2801,7 +2805,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray sub(INDArray other) {
-        return dup().subi(other);
+        return subi(other, Nd4j.createUninitialized(other.shape(), other.ordering()));
     }
 
     /**
@@ -2813,7 +2817,7 @@ public abstract class BaseNDArray implements INDArray, Iterable {
      */
     @Override
     public INDArray sub(INDArray other, INDArray result) {
-        return dup().subi(other, result);
+        return subi(other, result);
     }
 
     /**
@@ -3375,7 +3379,8 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray rdiv(Number n) {
-        return dup().rdivi(n);
+        //return dup().rdivi(n);
+        return rdivi(n, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     @Override
@@ -3385,7 +3390,8 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray rsub(Number n) {
-        return dup().rsubi(n);
+        //return dup().rsubi(n);
+        return rsubi(n, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     @Override
@@ -3395,7 +3401,8 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray div(Number n) {
-        return dup().divi(n);
+        //return dup().divi(n);
+        return divi(n, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     @Override
@@ -3405,7 +3412,8 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray mul(Number n) {
-        return dup().muli(n);
+        // return dup().muli(n);
+        return muli(n, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     @Override
@@ -3415,7 +3423,8 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray sub(Number n) {
-        return dup().subi(n);
+        //return dup().subi(n);
+        return subi(n, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     @Override
@@ -3425,7 +3434,8 @@ public abstract class BaseNDArray implements INDArray, Iterable {
 
     @Override
     public INDArray add(Number n) {
-        return dup().addi(n);
+        //return dup().addi(n);
+        return addi(n, Nd4j.createUninitialized(this.shape(), this.ordering()));
     }
 
     @Override
@@ -4947,5 +4957,198 @@ public abstract class BaseNDArray implements INDArray, Iterable {
     }
 
 
+    /**
+     * This method returns index of highest value along specified dimension(s)
+     *
+     * @param dimension
+     * @return
+     */
+    @Override
+    public INDArray argMax(int... dimension) {
+        return Nd4j.argMax(this, dimension);
+    }
 
+
+    /**
+     * This method returns True, if this INDArray instance is attached to some Workspace. False otherwise.
+     *
+     * @return
+     */
+    @Override
+    public boolean isAttached() {
+        return data.isAttached();
+    }
+
+    /**
+     * This method checks, if given attached INDArray is still in scope of its parent Workspace
+     * <p>
+     * PLEASE NOTE: if this INDArray isn't attached to any Workspace, this method will return true
+     *
+     * @return
+     */
+    @Override
+    public boolean isInScope() {
+        if (!isAttached())
+            return true;
+
+        return data.isInScope();
+    }
+
+    /**
+     * This metod detaches INDArray from Workspace, returning copy. Basically it's dup() into new memory chunk.
+     * <p>
+     * PLEASE NOTE: If this INDArray instance is NOT attached - it will be returned unmodified.
+     *
+     * @return
+     */
+    @Override
+    public INDArray detach() {
+        if (!isAttached())
+            return this;
+
+        if (Nd4j.getExecutioner() instanceof GridExecutioner)
+            ((GridExecutioner) Nd4j.getExecutioner()).flushQueueBlocking();
+
+        /*
+         two options here
+         1) we're within some workspace
+         2) we're out of any workspace
+        */
+        if (Nd4j.getMemoryManager().getCurrentWorkspace() == null) {
+            DataBuffer buffer = Nd4j.createBuffer(this.lengthLong(), false);
+
+            Nd4j.getMemoryManager().memcpy(buffer, this.data());
+
+            return Nd4j.createArrayFromShapeBuffer(buffer, this.shapeInfoDataBuffer());
+        } else {
+            MemoryWorkspace workspace = Nd4j.getMemoryManager().getCurrentWorkspace();
+            Nd4j.getMemoryManager().setCurrentWorkspace(null);
+
+
+            DataBuffer buffer = Nd4j.createBuffer(this.lengthLong(), false);
+
+            //Pointer.memcpy(buffer.pointer(), this.data.pointer(), this.lengthLong() * Nd4j.sizeOfDataType(this.data.dataType()));
+            Nd4j.getMemoryManager().memcpy(buffer, this.data());
+
+            INDArray copy = Nd4j.createArrayFromShapeBuffer(buffer, this.shapeInfoDataBuffer()); //this.dup(this.ordering());
+
+            Nd4j.getMemoryManager().setCurrentWorkspace(workspace);
+
+            return copy;
+        }
+    }
+
+    /**
+     * This method detaches INDArray from current Workspace, and attaches it to Workspace above, if any.
+     * <p>
+     * PLEASE NOTE: If this INDArray instance is NOT attached - it will be returned unmodified.
+     * PLEASE NOTE: If current Workspace is the top-tier one, effect will be equal to detach() call - detached copy will be returned
+     *
+     * @return
+     */
+    @Override
+    public INDArray leverage() {
+        if (!isAttached())
+            return this;
+
+        MemoryWorkspace workspace = Nd4j.getMemoryManager().getCurrentWorkspace();
+        if (workspace == null) {
+            return this.detach();
+        }
+
+        MemoryWorkspace parentWorkspace = workspace.getParentWorkspace();
+        // if there's no parent ws - just detach
+        if (parentWorkspace == null)
+            return this.detach();
+        else {
+            if (Nd4j.getExecutioner() instanceof GridExecutioner)
+                ((GridExecutioner) Nd4j.getExecutioner()).flushQueueBlocking();
+
+            // temporary set parent ws as current ws
+            Nd4j.getMemoryManager().setCurrentWorkspace(parentWorkspace);
+
+            INDArray copy = null;
+            if (!this.isView()) {
+                DataBuffer buffer = Nd4j.createBuffer(this.lengthLong(), false);
+                Nd4j.getMemoryManager().memcpy(buffer, this.data());
+
+                copy = Nd4j.createArrayFromShapeBuffer(buffer, this.shapeInfoDataBuffer());
+            } else {
+                copy = this.dup(this.ordering());
+            }
+
+            // restore current ws
+            Nd4j.getMemoryManager().setCurrentWorkspace(workspace);
+            return copy;
+        }
+    }
+
+    /**
+     * This method detaches INDArray from current Workspace, and attaches it to Workspace with a given Id
+     *
+     * PLEASE NOTE: If this INDArray instance is NOT attached - it will be returned unmodified.
+     * PLEASE NOTE: If Workspace with target Id wasn't created before - this array will be returned unmodified.
+     * PLEASE NOTE: If target workspace is the current one - this array will be returned unmodified.
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public INDArray leverageTo(String id) {
+        if (!isAttached())
+            return this;
+
+        if (!Nd4j.getWorkspaceManager().checkIfWorkspaceExists(id))
+            return this;
+
+        MemoryWorkspace current = Nd4j.getMemoryManager().getCurrentWorkspace();
+
+        MemoryWorkspace target = Nd4j.getWorkspaceManager().getWorkspaceForCurrentThread(id);
+
+        if (current == target)
+            return this;
+
+        Nd4j.getMemoryManager().setCurrentWorkspace(target);
+        INDArray copy = null;
+        if (!this.isView()) {
+            DataBuffer buffer = Nd4j.createBuffer(this.lengthLong(), false);
+            Nd4j.getMemoryManager().memcpy(buffer, this.data());
+
+            copy = Nd4j.createArrayFromShapeBuffer(buffer, this.shapeInfoDataBuffer());
+        } else {
+            copy = this.dup(this.ordering());
+        }
+
+        Nd4j.getMemoryManager().setCurrentWorkspace(current);
+
+        return copy;
+    }
+
+    /**
+     * This method pulls this INDArray into current Workspace.
+     *
+     * PLEASE NOTE: If there's no current Workspace - INDArray returned as is
+     *
+     * @return
+     */
+    @Override
+    public INDArray migrate() {
+        MemoryWorkspace current = Nd4j.getMemoryManager().getCurrentWorkspace();
+
+        if (current == null)
+            return this;
+
+        INDArray copy = null;
+
+        if (!this.isView()) {
+            DataBuffer buffer = Nd4j.createBuffer(this.lengthLong(), false);
+            Nd4j.getMemoryManager().memcpy(buffer, this.data());
+
+            copy = Nd4j.createArrayFromShapeBuffer(buffer, this.shapeInfoDataBuffer());
+        } else {
+            copy = this.dup(this.ordering());
+        }
+
+        return copy;
+    }
 }
