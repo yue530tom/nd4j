@@ -167,7 +167,114 @@ Two methods for combining NDArrays are `Nd4j.hstack(INDArray...)` and `Nd4j.vsta
 
 `hstack` (horizontal stack) takes as argument a number of matrices that have the same number of rows, and stacks them horizontally to produce a new array. The input NDArrays can have a different number of columns, however.
 
+Example:
+
+```
+int nRows = 2;
+int nColumns = 2;
+// Create INDArray of zeros
+INDArray zeros = Nd4j.zeros(nRows, nColumns);
+// Create one of all ones
+INDArray ones = Nd4j.ones(nRows, nColumns);
+//hstack
+INDArray hstack = Nd4j.hstack(ones,zeros);
+System.out.println("### HSTACK ####");
+System.out.println(hstack);
+
+```
+
+Output:
+
+```
+### HSTACK ####
+[[1.00, 1.00, 0.00, 0.00],
+[1.00, 1.00, 0.00, 0.00]]
+```
+
 `vstack` (vertical stack) is the vertical equivalent of hstack. The input arrays must have the same number of columns.
+
+Example:
+
+```
+int nRows = 2;
+int nColumns = 2;
+// Create INDArray of zeros
+INDArray zeros = Nd4j.zeros(nRows, nColumns);
+// Create one of all ones
+INDArray ones = Nd4j.ones(nRows, nColumns);
+//vstack
+INDArray vstack = Nd4j.vstack(ones,zeros);
+System.out.println("### VSTACK ####");
+System.out.println(vstack);
+```
+
+Output:
+
+```
+### VSTACK ####
+[[1.00, 1.00],
+ [1.00, 1.00],
+ [0.00, 0.00],
+ [0.00, 0.00]]
+```
+
+`ND4J.concat` combines arrays along a dimension. 
+
+Example:
+
+```
+int nRows = 2;
+int nColumns = 2;
+//INDArray of zeros
+INDArray zeros = Nd4j.zeros(nRows, nColumns);
+// Create one of all ones
+INDArray ones = Nd4j.ones(nRows, nColumns);
+// Concat on dimension 0
+INDArray combined = Nd4j.concat(0,zeros,ones);
+System.out.println("### COMBINED dimension 0####");
+System.out.println(combined);
+//Concat on dimension 1
+INDArray combined2 = Nd4j.concat(1,zeros,ones);
+System.out.println("### COMBINED dimension 1 ####");
+System.out.println(combined2);
+```
+
+Output:
+```
+### COMBINED dimension 0####
+[[0.00, 0.00],
+ [0.00, 0.00],
+ [1.00, 1.00],
+ [1.00, 1.00]]
+### COMBINED dimension 1 ####
+[[0.00, 0.00, 1.00, 1.00],
+ [0.00, 0.00, 1.00, 1.00]]
+```
+
+`ND4J.pad` is used to pad an array.
+
+Example:
+```
+int nRows = 2;
+int nColumns = 2;
+// Create INDArray of all ones
+INDArray ones = Nd4j.ones(nRows, nColumns);
+// pad the INDArray
+INDArray padded = Nd4j.pad(ones, new int[]{1,1}, Nd4j.PadMode.CONSTANT );
+System.out.println("### Padded ####");
+System.out.println(padded);
+```
+
+Output:
+
+
+```
+### Padded ####
+[[0.00, 0.00, 0.00, 0.00],
+ [0.00, 1.00, 1.00, 0.00],
+ [0.00, 1.00, 1.00, 0.00],
+ [0.00, 0.00, 0.00, 0.00]]
+```
 
 
 One other method that can occasionally be useful is `Nd4j.diag(INDArray in)`. This method has two uses, depending on the argument `in`:
