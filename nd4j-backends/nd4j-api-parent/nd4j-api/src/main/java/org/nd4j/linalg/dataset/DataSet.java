@@ -68,6 +68,7 @@ public class DataSet implements org.nd4j.linalg.dataset.api.DataSet {
 
     private List<Serializable> exampleMetaData;
 
+    private String defaultCompression = "GZIP";
     private transient boolean preProcessed = false;
 
     public DataSet() {
@@ -442,10 +443,74 @@ public class DataSet implements org.nd4j.linalg.dataset.api.DataSet {
         }
     }
 
+    public void save(OutputStream to, String compressionAlgorithm) {
+        byte included = 0;
+        if (features != null)
+            included |= BITMASK_FEATURES_PRESENT;
+        if (labels != null) {
+            if (labels == features) {
+                //Same object. Don't serialize the same data twice!
+                included |= BITMASK_LABELS_SAME_AS_FEATURES;
+            } else {
+                included |= BITMASK_LABELS_PRESENT;
+            }
+        }
+        if (featuresMask != null)
+            included |= BITMASK_FEATURE_MASK_PRESENT;
+        if (labelsMask != null)
+            included |= BITMASK_LABELS_MASK_PRESENT;
+
+
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(to);
+            DataOutputStream dos = new DataOutputStream(bos);
+            dos.writeByte(included);
+
+            INDArray compressed;
+            if (features != null) {
+                compressed = Nd4j.getCompressor().compress(features, compressionAlgorithm);
+                Nd4j.write(compressed, dos);
+            }
+            if (labels != null && labels != features) {
+                compressed = Nd4j.getCompressor().compress(labels, compressionAlgorithm);
+                Nd4j.write(compressed, dos);
+            }
+            if (featuresMask != null) {
+                compressed = Nd4j.getCompressor().compress(featuresMask, compressionAlgorithm);
+                Nd4j.write(compressed, dos);
+            }
+            if (labelsMask != null) {
+                compressed = Nd4j.getCompressor().compress(labelsMask, compressionAlgorithm);
+                Nd4j.write(compressed, dos);
+            }
+
+            dos.flush();
+            dos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void save(OutputStream to) {
+        save(to, defaultCompression);
+    }
 
+    public void save(File to, String compressionAlgorithm) {
+        try (FileOutputStream fos = new FileOutputStream(to, false);
+                        BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+            save(bos, compressionAlgorithm);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void save(File to) {
+        save(to, defaultCompression);
+    }
+
+    public void saveUncompressed(OutputStream to) {
         byte included = 0;
         if (features != null)
             included |= BITMASK_FEATURES_PRESENT;
@@ -484,10 +549,9 @@ public class DataSet implements org.nd4j.linalg.dataset.api.DataSet {
         }
     }
 
-    @Override
-    public void save(File to) {
+    public void saveUncompressed(File to) {
         try (FileOutputStream fos = new FileOutputStream(to, false);
-                        BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
             save(bos);
         } catch (IOException e) {
             throw new RuntimeException(e);
