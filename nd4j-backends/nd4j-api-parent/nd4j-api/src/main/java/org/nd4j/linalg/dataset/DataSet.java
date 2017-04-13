@@ -68,7 +68,7 @@ public class DataSet implements org.nd4j.linalg.dataset.api.DataSet {
 
     private List<Serializable> exampleMetaData;
 
-    private String defaultCompression = "GZIP";
+    private String defaultCompression = "FLOAT16";
     private transient boolean preProcessed = false;
 
     public DataSet() {
